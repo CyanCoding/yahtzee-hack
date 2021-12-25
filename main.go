@@ -21,7 +21,7 @@ func main() {
 		fmt.Print("Please enter a number > ")
 
 		var input int
-		fmt.Scanln(&input)
+		_, _ = fmt.Scanln(&input)
 
 		if input == 1 {
 
