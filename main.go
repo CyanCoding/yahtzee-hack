@@ -27,7 +27,7 @@ func main() {
 
 		} else if input == 2 { // Enter dice
 			dice := InputDice()
-			CalculateProbability(dice)
+			CalculateLowerHand(dice)
 		} else if input == 3 { // Calculate score
 
 		} else {

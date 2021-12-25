@@ -23,6 +23,10 @@ func InputDice() (dice [5]int) {
 	return
 }
 
-func CalculateProbability(dice [5]int) {
+func calculateThreeKind(dice [5]int) (probability float32) {
+	return
+}
 
+func CalculateLowerHand(dice [5]int) {
+	//var threeKind, fourKind, fullHouse, smallStraight, largeStraight, yahtzee float32
 }
