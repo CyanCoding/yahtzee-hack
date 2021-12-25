@@ -4,9 +4,7 @@ import (
 	"fmt"
 )
 
-var dice [5]int
-
-func InputDice() {
+func InputDice() (dice [5]int) {
 	var input string
 	for len(input) != 5 {
 		fmt.Print("Please enter your dice ('34531') > ")
@@ -17,8 +15,14 @@ func InputDice() {
 		}
 	}
 
-	// Add to global dice array
+	// Add to dice array
 	for i := 0; i < 5; i++ {
 		dice[i] = int(input[i] - '0')
 	}
+
+	return
+}
+
+func CalculateProbability(dice [5]int) {
+
 }
