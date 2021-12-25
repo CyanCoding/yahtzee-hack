@@ -23,11 +23,12 @@ func main() {
 		var input int
 		_, _ = fmt.Scanln(&input)
 
-		if input == 1 {
+		if input == 1 { // View current hand
 
-		} else if input == 2 {
-
-		} else if input == 3 {
+		} else if input == 2 { // Enter dice
+			dice := InputDice()
+			CalculateProbability(dice)
+		} else if input == 3 { // Calculate score
 
 		} else {
 			fmt.Println("Invalid action. Try again.")
