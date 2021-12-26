@@ -24,6 +24,14 @@ func InputDice() (dice [5]int) {
 }
 
 func calculateThreeKind(dice [5]int) (probability float32) {
+func factorial(n int64) (value int64) {
+	if n > 0 {
+		value = n * Factorial(n-1)
+		return
+	}
+
+	return 1
+}
 	return
 }
 
