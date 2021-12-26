@@ -28,7 +28,8 @@ func main() {
 		if input == 1 { // View current hand
 
 		} else if input == 2 { // Enter dice
-			for i := 0; i < 3; i++ {
+			fmt.Print("\033[H\033[2J")
+			for i := 0; i < 3; i++ { // Up to three rolls per turn
 				dice := InputDice()
 				if dice[0] != 0 {
 					CalculateLowerHand(dice)
