@@ -2,16 +2,22 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 )
 
 func InputDice() (dice [5]int) {
 	var input string
-	for len(input) != 5 {
-		fmt.Print("Please enter your dice ('34531') > ")
+	for len(input) != 5 || input == "0" {
+		fmt.Print("Please enter your dice ('34531') or '0' to quit > ")
 		_, _ = fmt.Scanln(&input)
 
-		if len(input) != 5 {
+		if input == "0" {
+			dice[0] = 0
+			return
+		} else if len(input) != 5 {
+			color.Set(color.FgHiRed)
 			fmt.Println("You should have 5 dice!")
+			color.Set(color.FgHiWhite)
 		}
 	}
 
