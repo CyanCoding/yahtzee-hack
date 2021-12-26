@@ -2,7 +2,9 @@
 // Author: CyanCoding, Camden Mac Leod
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	fmt.Println("CyanCoding's Yahtzee Hack!")
@@ -26,8 +28,14 @@ func main() {
 		if input == 1 { // View current hand
 
 		} else if input == 2 { // Enter dice
-			dice := InputDice()
-			CalculateLowerHand(dice)
+			for i := 0; i < 3; i++ {
+				dice := InputDice()
+				if dice[0] != 0 {
+					CalculateLowerHand(dice)
+				} else {
+					break
+				}
+			}
 		} else if input == 3 { // Calculate score
 
 		} else {
