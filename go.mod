@@ -1,5 +1,5 @@
 module yahtzee-hack
 
-go 1.17
+go 1.16
 
 require github.com/dustin/go-humanize v1.0.0 // indirect
