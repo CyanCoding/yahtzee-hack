@@ -32,9 +32,9 @@ func InputDice() (dice [5]int) {
 	return
 }
 
-func factorial(n float64) (value float64) {
+func Factorial(n float64) (value float64) {
 	if n > 0 {
-		value = n * factorial(n-1)
+		value = n * Factorial(n-1)
 		return
 	}
 
@@ -46,7 +46,7 @@ func calculateProbability(rolling float64, needed float64) (probability float64)
 		return 0
 	}
 	// Combinations = n!/(r!(n - r)!)
-	combinations := factorial(rolling) / (factorial(needed) * factorial(rolling-needed))
+	combinations := Factorial(rolling) / (Factorial(needed) * Factorial(rolling-needed))
 
 	// Probability = combinations * (1/6)^needed * (1 - (1/6))^(n - r)
 	probability = combinations * math.Pow(1.0/6.0, needed) * math.Pow(1-(1.0/6.0), rolling-needed)

@@ -4,10 +4,32 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func main() {
 	fmt.Println("CyanCoding's Yahtzee Hack!")
+	totalSuccesses := 0.0
+	numberOfTrials := 3.0
+	phase1 := Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+	totalSuccesses = 1.0
+	phase2 := Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+	totalSuccesses = 2.0
+	phase3 := Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+
+	value := Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+	totalSuccesses = 3.0
+	value += Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+
+	totalSuccesses = 1.0
+	numberOfTrials = 2.0
+	value2 := Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+	totalSuccesses = 2.0
+	value2 += Factorial(numberOfTrials) / (Factorial(numberOfTrials-totalSuccesses) * Factorial(totalSuccesses)) * math.Pow(1.0/6.0, totalSuccesses) * math.Pow(5.0/6.0, numberOfTrials-totalSuccesses)
+
+	percentage := ((phase1 * value) + (phase2 * value2)) + phase3
+
+	fmt.Println(percentage)
 
 	score := 0
 
