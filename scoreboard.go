@@ -217,15 +217,24 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	return newBoard
 }
 
-// CalculateScore takes the board and returns the point values. Ignores -1 (crossed out) values
-func CalculateScore(board [13]ScoreItem) (score int) {
+// CalculateTotalScore takes the board and returns the point values. Ignores -1 (crossed out) values
+func CalculateTotalScore(board [13]ScoreItem) (score int) {
 	for i := 0; i < len(board); i++ {
 		if board[i].points != -1 {
 			score += board[i].points
 		}
 	}
 
+	// If they get a score of 63 or higher on their upper hand it's a +35 bonus
+	if CalculateUpperScore(board) >= 63 {
+		score += 35
+	}
+
 	return
+}
+
+func CalculateUpperScore(board [13]ScoreItem) int {
+	return board[0].points + board[1].points + board[2].points + board[3].points + board[4].points + board[5].points
 }
 
 func DisplayScoreBoard(board [13]ScoreItem) {
@@ -247,7 +256,11 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 	fmt.Println(chalk.Reset())
 	fmt.Println("-------------------")
 
-	upperPoints := board[0].points + board[1].points + board[2].points + board[3].points + board[4].points + board[5].points
+	upperPoints := CalculateUpperScore(board)
+	if upperPoints >= 63 {
+		upperPoints += 35
+	}
+
 	if upperPoints < 10 {
 		fmt.Printf("|    Points: %d    |", upperPoints)
 	} else if upperPoints < 100 {
@@ -323,7 +336,7 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 	fmt.Println(chalk.Reset())
 	fmt.Println("-------------------")
 
-	points := CalculateScore(board)
+	points := CalculateTotalScore(board)
 
 	fmt.Println(chalk.GreenLight())
 

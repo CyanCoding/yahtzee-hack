@@ -17,7 +17,7 @@ func main() {
 
 	// Infinite loop until the game ends
 	for i := 1; i <= 13; i++ {
-		score = CalculateScore(board)
+		score = CalculateTotalScore(board)
 		fmt.Print(chalk.Reset())
 
 		if clearScreen {
@@ -37,7 +37,7 @@ func main() {
 		var input int
 		_, _ = fmt.Scanln(&input)
 
-		if input == 1 { // View current score card
+		if input == 1 { // View current scorecard
 			DisplayScoreBoard(board)
 			clearScreen = false
 			fmt.Println()
