@@ -175,7 +175,7 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 		} else {
 			fmt.Println(chalk.Reset())
 		}
-		fmt.Printf("| %s             : %d", board[i].name, board[1].points)
+		fmt.Printf("| %s             : %d", board[i].name, board[i].points)
 	}
 	fmt.Println(chalk.Reset())
 	fmt.Println("-------------------")
@@ -251,7 +251,7 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 	points := CalculateScore(board)
 
 	fmt.Println(chalk.GreenLight())
-	points = 5000
+
 	if points < 10 {
 		fmt.Printf("==== POINTS: %d ====", points)
 	} else if points < 100 {
