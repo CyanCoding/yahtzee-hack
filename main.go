@@ -43,6 +43,7 @@ func main() {
 				}
 			}
 			fmt.Print("\033[H\033[2J")
+			// They rolled at least once
 			if lastRoll[0] != 0 {
 				fmt.Printf(
 					"Hand: %d %d %d %d %d\n",
@@ -52,17 +53,21 @@ func main() {
 					lastRoll[3],
 					lastRoll[4],
 				)
+				// Ask the user which option they want to fill out on their board
 				fmt.Println("Please pick one of the following to fill in.")
 				options := FindPossibleOptions(board, lastRoll)
+
+				// Until they pick a valid option
 				for true {
 					fmt.Print("Option number > ")
 					_, _ = fmt.Scanln(&input)
 
+					// If it's not a valid input number
 					if (input - 1) >= len(options) {
 						color.Set(color.FgHiRed)
 						fmt.Println("Invalid option!")
 						color.Set(color.FgHiWhite)
-					} else {
+					} else { // It is a valid input number
 						if (input - 1) == (len(options) - 1) { // Cross out selected
 							board = CrossOut(board)
 						} else { // Regular option selected
@@ -72,7 +77,7 @@ func main() {
 								}
 							}
 						}
-						break
+						break // Only break when they've input a valid input number
 					}
 				}
 			}
