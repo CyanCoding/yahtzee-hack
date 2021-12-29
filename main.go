@@ -10,12 +10,19 @@ import (
 func main() {
 	board := GenerateBoard()
 	score := 0
+	clearScreen := true
 
 	// Infinite loop until the game ends
 	for i := 1; i <= 13; i++ {
 		score = CalculateScore(board)
 		fmt.Print(chalk.Reset())
-		fmt.Print("\033[H\033[2J")
+
+		if clearScreen {
+			fmt.Print("\033[H\033[2J")
+		} else {
+			clearScreen = true
+		}
+
 		fmt.Println("CyanCoding's Yahtzee Hack!")
 
 		fmt.Println("round", i, "- score", score) // round 0 - score 0
@@ -28,7 +35,9 @@ func main() {
 		_, _ = fmt.Scanln(&input)
 
 		if input == 1 { // View current score card
-
+			DisplayScoreBoard(board)
+			clearScreen = false
+			fmt.Println()
 		} else if input == 2 { // Enter dice
 			var lastRoll, dice [5]int
 			fmt.Print("\033[H\033[2J")

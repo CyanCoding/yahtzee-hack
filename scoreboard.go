@@ -163,5 +163,103 @@ func CalculateScore(board [13]ScoreItem) (score int) {
 }
 
 func DisplayScoreBoard(board [13]ScoreItem) {
+	fmt.Print("\033[H\033[2J")
+	fmt.Println("==== SCORECARD ====")
+	fmt.Println("-------------------")
+	fmt.Println("|  Upper Section  |")
+	fmt.Print("-------------------")
 
+	for i := 0; i < 6; i++ {
+		if board[i].points == -1 {
+			fmt.Println(chalk.Strikethrough())
+		} else {
+			fmt.Println(chalk.Reset())
+		}
+		fmt.Printf("| %s             : %d", board[i].name, board[1].points)
+	}
+	fmt.Println(chalk.Reset())
+	fmt.Println("-------------------")
+
+	upperPoints := board[0].points + board[1].points + board[2].points + board[3].points + board[4].points + board[5].points
+	if upperPoints < 10 {
+		fmt.Printf("|    Points: %d    |", upperPoints)
+	} else if upperPoints < 100 {
+		fmt.Printf("|    Total: %d    |", upperPoints)
+	} else {
+		fmt.Printf("|   Points: %d   |", upperPoints)
+	}
+
+	fmt.Println()
+	fmt.Println("-------------------")
+	fmt.Println()
+	fmt.Println("-------------------")
+
+	fmt.Println("|  Lower Section  |")
+	fmt.Print("-------------------")
+
+	if board[6].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Three-of-a-kind : %d", board[6].points)
+
+	if board[7].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Four-of-a-kind  : %d", board[7].points)
+
+	if board[8].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Full house      : %d", board[8].points)
+
+	if board[9].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Small straight  : %d", board[9].points)
+
+	if board[10].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Large straight  : %d", board[10].points)
+
+	if board[11].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Yahtzee         : %d", board[11].points)
+
+	if board[12].points == -1 {
+		fmt.Println(chalk.Strikethrough())
+	} else {
+		fmt.Println(chalk.Reset())
+	}
+	fmt.Printf("| Chance          : %d", board[12].points)
+	fmt.Println(chalk.Reset())
+	fmt.Println("-------------------")
+
+	points := CalculateScore(board)
+
+	fmt.Println(chalk.GreenLight())
+	points = 5000
+	if points < 10 {
+		fmt.Printf("==== POINTS: %d ====", points)
+	} else if points < 100 {
+		fmt.Printf("==== TOTAL: %d ====", points)
+	} else if points < 1000 {
+		fmt.Printf("=== POINTS: %d ===", points)
+	} else if points < 10000 {
+		fmt.Printf("=== TOTAL: %d ===", points)
+	}
+	fmt.Println(chalk.Reset())
 }
