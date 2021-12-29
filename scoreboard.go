@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/golang-demos/chalk"
+	"os"
 	"strings"
 )
 
@@ -121,10 +123,13 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 	fmt.Println(chalk.Reset())
 
 	badName := true
+	scanner := bufio.NewScanner(os.Stdin)
 	for badName {
-		var input string
 		fmt.Print("Name > ")
-		_, _ = fmt.Scanln(&input)
+		if !scanner.Scan() {
+			continue
+		}
+		input := scanner.Text()
 
 		if strings.ToLower(input) == "cross out" {
 			newBoard = CrossOut(newBoard)
@@ -183,10 +188,14 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 
 	var name string
 	badName := true
+	scanner := bufio.NewScanner(os.Stdin)
 	for badName {
-		var input string
 		fmt.Print("Name > ")
-		_, _ = fmt.Scanln(&input)
+		if !scanner.Scan() {
+			continue
+		}
+		input := scanner.Text()
+
 		for i := 0; i < len(newBoard); i++ {
 			if strings.ToLower(newBoard[i].name) == strings.ToLower(input) {
 				newBoard[i].points = -1
