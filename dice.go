@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
+	"github.com/golang-demos/chalk"
 	"math"
 	"strconv"
 	"strings"
@@ -18,9 +18,9 @@ func InputDice() (dice [5]int) {
 			dice[0] = 0
 			return
 		} else if len(input) != 5 {
-			color.Set(color.FgHiRed)
-			fmt.Println("You should have 5 dice!")
-			color.Set(color.FgHiWhite)
+			fmt.Print(chalk.RedLight())
+			fmt.Print("You should have 5 dice!")
+			fmt.Println(chalk.Reset())
 		}
 	}
 
@@ -231,15 +231,12 @@ func CalculateLowerHand(dice [5]int) {
 	yahtzee = CalculateYahtzee(m) * 100
 
 	// Print results
-	fmt.Println()
-	color.Set(color.FgCyan)
-	fmt.Println("In your next roll you might get...")
-	color.Set(color.FgHiGreen)
+	fmt.Println(chalk.CyanLight())
+	fmt.Print("In your next roll you might get...")
+	fmt.Println(chalk.GreenLight())
 
 	if yahtzee == 100 {
-		color.Set(color.FgHiMagenta)
 		fmt.Println("----- YAHTZEE (50 points) ✓ -----")
-		color.Set(color.FgHiGreen)
 		fullHouse = 100 // Joker rule
 	}
 	if threeKind == 100 {
@@ -258,7 +255,7 @@ func CalculateLowerHand(dice [5]int) {
 		fmt.Println("Large straight (40 points): ✓")
 	}
 
-	color.Set(color.FgHiYellow)
+	fmt.Println(chalk.YellowLight())
 
 	if threeKind != 100 {
 		fmt.Println("Three of a kind: " + strconv.FormatFloat(threeKind, 'f', 2, 64) + "%")
@@ -288,6 +285,5 @@ func CalculateLowerHand(dice [5]int) {
 		fmt.Println("Another Yahtzee: " + strconv.FormatFloat(yahtzee, 'f', 2, 64) + "%")
 	}
 
-	color.Set(color.FgHiWhite)
-	fmt.Println()
+	fmt.Println(chalk.Reset())
 }

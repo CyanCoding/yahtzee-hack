@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
+	"github.com/golang-demos/chalk"
 )
 
 func main() {
@@ -14,21 +14,20 @@ func main() {
 	// Infinite loop until the game ends
 	for i := 1; i <= 13; i++ {
 		score = CalculateScore(board)
-		color.Set(color.FgHiWhite)
+		fmt.Print(chalk.Reset())
 		fmt.Print("\033[H\033[2J")
 		fmt.Println("CyanCoding's Yahtzee Hack!")
 
 		fmt.Println("round", i, "- score", score) // round 0 - score 0
 		fmt.Println("Actions:")
-		fmt.Println("1. View current hand")
+		fmt.Println("1. View your score card")
 		fmt.Println("2. Enter dice")
-		fmt.Println("3. Calculate score")
 		fmt.Print("Please enter a number > ")
 
 		var input int
 		_, _ = fmt.Scanln(&input)
 
-		if input == 1 { // View current hand
+		if input == 1 { // View current score card
 
 		} else if input == 2 { // Enter dice
 			var lastRoll, dice [5]int
@@ -54,7 +53,8 @@ func main() {
 					lastRoll[4],
 				)
 				// Ask the user which option they want to fill out on their board
-				fmt.Println("Please pick one of the following to fill in.")
+				fmt.Print("Please pick one of the following to fill in.")
+				fmt.Println(chalk.YellowLight())
 				options := FindPossibleOptions(board, lastRoll)
 
 				// Until they pick a valid option
@@ -64,9 +64,9 @@ func main() {
 
 					// If it's not a valid input number
 					if (input - 1) >= len(options) {
-						color.Set(color.FgHiRed)
-						fmt.Println("Invalid option!")
-						color.Set(color.FgHiWhite)
+						fmt.Print(chalk.RedLight())
+						fmt.Print("Invalid option!")
+						fmt.Println(chalk.Reset())
 					} else { // It is a valid input number
 						if (input - 1) == (len(options) - 1) { // Cross out selected
 							board = CrossOut(board)
@@ -84,9 +84,7 @@ func main() {
 				// We do this because they didn't even roll once
 				i--
 			}
-		} else if input == 3 { // Calculate score
-
-		} else {
+		} else { // Invalid action
 			fmt.Println("Invalid action. Try again.")
 			i-- // We don't want to waste a turn on a bad action
 			continue

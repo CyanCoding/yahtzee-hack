@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
+	"github.com/golang-demos/chalk"
 )
 
 // ScoreItem holds data on a scoreboard item's name, current point value, and ID
@@ -100,7 +100,6 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 		possibilities = append(possibilities, ScoreItem{"Chance", points, 12})
 	}
 
-	color.Set(color.FgHiYellow)
 	var i int
 	for i = 0; i < len(possibilities); i++ {
 		// Ex: 4. Three-of-a-kind (30 points)
@@ -111,10 +110,9 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 			fmt.Println(" points)")
 		}
 	}
-
-	color.Set(color.FgHiRed)
-	fmt.Printf("%d. Cross out\n", i+1)
-	color.Set(color.FgHiWhite)
+	fmt.Println(chalk.RedLight())
+	fmt.Printf("%d. Cross out", i+1)
+	fmt.Println(chalk.Reset())
 
 	possibilities = append(possibilities, ScoreItem{"Cross out", 0, 13})
 	return possibilities
@@ -123,8 +121,8 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	newBoard := board
 	fmt.Print("\033[H\033[2J")
-	fmt.Println("Please select an option to cross out.")
-	color.Set(color.FgHiYellow)
+	fmt.Print("Please select an option to cross out.")
+	fmt.Println(chalk.YellowLight())
 
 	// Counter represents the 1., 2., 3., 4., etc. counter used to display
 	// an orderly list to the user. We can't use board[i].id or i because
@@ -143,7 +141,7 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 			offset--
 		}
 	}
-	color.Set(color.FgHiWhite)
+	fmt.Println(chalk.Reset())
 
 	var input int
 	fmt.Print("Option number > ")
@@ -162,4 +160,8 @@ func CalculateScore(board [13]ScoreItem) (score int) {
 	}
 
 	return
+}
+
+func DisplayScoreBoard(board [13]ScoreItem) {
+
 }
