@@ -46,7 +46,7 @@ func main() {
 			var lastRoll, dice [5]int
 			fmt.Print("\033[H\033[2J")
 			for j := 0; j < 3; j++ { // Up to three rolls per turn
-				dice = InputDice()
+				dice = InputDice(board)
 				if dice[0] != 0 {
 					lastRoll = dice
 					CalculateLowerHand(dice)

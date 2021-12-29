@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-func InputDice() (dice [5]int) {
+func InputDice(board [13]ScoreItem) (dice [5]int) {
 	var input string
 	for len(input) != 5 || input == "0" {
-		fmt.Print("Please enter your dice ('34531') or '0' to quit > ")
+		fmt.Print("Please enter your dice ('34531') or '0' to finish > ")
 		_, _ = fmt.Scanln(&input)
 
-		if input == "0" {
+		if input == "0" { // Quit
 			dice[0] = 0
 			return
 		} else if len(input) != 5 {
@@ -240,10 +240,10 @@ func CalculateLowerHand(dice [5]int) {
 		fullHouse = 100 // Joker rule
 	}
 	if threeKind == 100 {
-		fmt.Println("Three of a kind (" + strconv.Itoa(points) + " points): ✓")
+		fmt.Println("Three-of-a-kind (" + strconv.Itoa(points) + " points): ✓")
 	}
 	if fourKind == 100 {
-		fmt.Println("Four of a kind (" + strconv.Itoa(points) + " points): ✓")
+		fmt.Println("Four-of-a-kind (" + strconv.Itoa(points) + " points): ✓")
 	}
 	if fullHouse == 100 {
 		fmt.Println("Full house (25 points): ✓")
@@ -258,10 +258,10 @@ func CalculateLowerHand(dice [5]int) {
 	fmt.Println(chalk.YellowLight())
 
 	if threeKind != 100 {
-		fmt.Println("Three of a kind: " + strconv.FormatFloat(threeKind, 'f', 2, 64) + "%")
+		fmt.Println("Three-of-a-kind: " + strconv.FormatFloat(threeKind, 'f', 2, 64) + "%")
 	}
 	if fourKind != 100 {
-		fmt.Println("Four of a kind: " + strconv.FormatFloat(fourKind, 'f', 2, 64) + "%")
+		fmt.Println("Four-of-a-kind: " + strconv.FormatFloat(fourKind, 'f', 2, 64) + "%")
 	}
 	if fullHouse != 100 {
 		fmt.Println("Full house: " + strconv.FormatFloat(fullHouse, 'f', 2, 64) + "%")
