@@ -38,7 +38,6 @@ func main() {
 					lastRoll = dice
 					CalculateLowerHand(dice)
 				} else {
-					i--
 					break
 				}
 			}
@@ -80,6 +79,9 @@ func main() {
 						break // Only break when they've input a valid input number
 					}
 				}
+			} else {
+				// We do this because they didn't even roll once
+				i--
 			}
 		} else if input == 3 { // Calculate score
 
