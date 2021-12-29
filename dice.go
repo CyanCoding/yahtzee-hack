@@ -41,7 +41,7 @@ func Factorial(n float64) (value float64) {
 	return 1
 }
 
-func calculateProbability(rolling float64, needed float64) (probability float64) {
+func CalculateProbability(rolling float64, needed float64) (probability float64) {
 	if needed > rolling {
 		return 0
 	}
@@ -54,13 +54,13 @@ func calculateProbability(rolling float64, needed float64) (probability float64)
 	return
 }
 
-func calculateThreeKind(m map[int]int) (probability float64) {
+func CalculateThreeKind(m map[int]int) (probability float64) {
 	for _, value := range m {
 		if value >= 3 {
 			return 1
 		}
 
-		temp := calculateProbability(float64(5-value), float64(3-value))
+		temp := CalculateProbability(float64(5-value), float64(3-value))
 
 		// This way we always get the highest probability returned
 		if temp > probability {
@@ -71,13 +71,13 @@ func calculateThreeKind(m map[int]int) (probability float64) {
 	return
 }
 
-func calculateFourKind(m map[int]int) (probability float64) {
+func CalculateFourKind(m map[int]int) (probability float64) {
 	for _, value := range m {
 		if value >= 4 {
 			return 1
 		}
 
-		temp := calculateProbability(float64(5-value), float64(4-value))
+		temp := CalculateProbability(float64(5-value), float64(4-value))
 
 		// This way we always get the highest probability returned
 		if temp > probability {
@@ -88,7 +88,7 @@ func calculateFourKind(m map[int]int) (probability float64) {
 	return
 }
 
-func calculateFullHouse(m map[int]int) (probability float64) {
+func CalculateFullHouse(m map[int]int) (probability float64) {
 	haveThree := 0
 	haveTwo := 0
 	for _, value := range m {
@@ -102,18 +102,18 @@ func calculateFullHouse(m map[int]int) (probability float64) {
 	if haveThree == 1 && haveTwo == 1 {
 		return 1 // They already have a full house
 	} else if haveTwo == 2 { // They have two pairs so they only need one extra card
-		probability = calculateProbability(1.0, 1.0) // This evaluates to 16.7%
+		probability = CalculateProbability(1.0, 1.0) // This evaluates to 16.7%
 	} else if haveTwo == 1 { // So they need a pair to make a loose 1 into 3
-		probability = calculateProbability(3.0, 2.0)
+		probability = CalculateProbability(3.0, 2.0)
 	} else if haveThree == 1 { // They just need one match
-		probability = calculateProbability(1.0, 1.0) // This is also 16.7%
+		probability = CalculateProbability(1.0, 1.0) // This is also 16.7%
 	} else { // They have nothing good
-		probability = calculateProbability(4.0, 4.0)
+		probability = CalculateProbability(4.0, 4.0)
 	}
 	return
 }
 
-func calculateSmallStraight(dice [5]int) (probability float64) {
+func CalculateSmallStraight(dice [5]int) (probability float64) {
 	possibility1 := "1234"
 	possibility2 := "2345"
 	possibility3 := "3456"
@@ -149,12 +149,12 @@ func calculateSmallStraight(dice [5]int) (probability float64) {
 
 	// 5.0 (dice) - (4.0 (length of small straight) - num to use
 	// Since if we have 1 number we need, that means we have three good dice (4 - 1), so we re-roll 2.
-	probability = calculateProbability(5.0-(4.0-float64(numToUse)), float64(numToUse))
+	probability = CalculateProbability(5.0-(4.0-float64(numToUse)), float64(numToUse))
 
 	return
 }
 
-func calculateLargeStraight(dice [5]int) (probability float64) {
+func CalculateLargeStraight(dice [5]int) (probability float64) {
 	possibility1 := "12345"
 	possibility2 := "23456"
 
@@ -181,18 +181,18 @@ func calculateLargeStraight(dice [5]int) (probability float64) {
 		numToUse = len(possibility2)
 	}
 
-	probability = calculateProbability(float64(numToUse), float64(numToUse))
+	probability = CalculateProbability(float64(numToUse), float64(numToUse))
 
 	return
 }
 
-func calculateYahtzee(m map[int]int) (probability float64) {
+func CalculateYahtzee(m map[int]int) (probability float64) {
 	for _, value := range m {
 		if value == 5 {
 			return 1
 		}
 
-		temp := calculateProbability(float64(5-value), float64(5-value))
+		temp := CalculateProbability(float64(5-value), float64(5-value))
 
 		// This way we always get the highest probability returned
 		if temp > probability {
@@ -203,7 +203,7 @@ func calculateYahtzee(m map[int]int) (probability float64) {
 	return
 }
 
-func diceMap(dice [5]int) map[int]int {
+func DiceMap(dice [5]int) map[int]int {
 	m := make(map[int]int)
 	for i := 0; i < 5; i++ {
 		m[dice[i]]++
@@ -215,7 +215,7 @@ func diceMap(dice [5]int) map[int]int {
 func CalculateLowerHand(dice [5]int) {
 	var threeKind, fourKind, fullHouse, smallStraight, largeStraight, yahtzee float64
 
-	m := diceMap(dice)
+	m := DiceMap(dice)
 
 	// Sort values into a map so that we know how many of each number there is
 	points := 0
@@ -223,12 +223,12 @@ func CalculateLowerHand(dice [5]int) {
 		points += dice[i]
 	}
 
-	threeKind = calculateThreeKind(m) * 100
-	fourKind = calculateFourKind(m) * 100
-	fullHouse = calculateFullHouse(m) * 100
-	smallStraight = calculateSmallStraight(dice) * 100
-	largeStraight = calculateLargeStraight(dice) * 100
-	yahtzee = calculateYahtzee(m) * 100
+	threeKind = CalculateThreeKind(m) * 100
+	fourKind = CalculateFourKind(m) * 100
+	fullHouse = CalculateFullHouse(m) * 100
+	smallStraight = CalculateSmallStraight(dice) * 100
+	largeStraight = CalculateLargeStraight(dice) * 100
+	yahtzee = CalculateYahtzee(m) * 100
 
 	// Print results
 	fmt.Println()
@@ -282,9 +282,9 @@ func CalculateLowerHand(dice [5]int) {
 		for i := 1; i < 6; i++ {
 			dice[i-1] = i
 		}
-		m = diceMap(dice)
+		m = DiceMap(dice)
 
-		yahtzee = calculateYahtzee(m) * 100
+		yahtzee = CalculateYahtzee(m) * 100
 		fmt.Println("Another Yahtzee: " + strconv.FormatFloat(yahtzee, 'f', 2, 64) + "%")
 	}
 
