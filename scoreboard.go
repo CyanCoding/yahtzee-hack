@@ -117,3 +117,26 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	possibilities = append(possibilities, ScoreItem{"Cross out", 0, 13})
 	return possibilities
 }
+
+func CrossOut(board [13]ScoreItem) [13]ScoreItem {
+	newBoard := board
+	fmt.Print("\033[H\033[2J")
+	fmt.Println("Please select an option to cross out.")
+	color.Set(color.FgHiYellow)
+	for i := 0; i < 13; i++ {
+		if board[i].points == 0 {
+			// Ex: 4. Three-of-a-kind
+			fmt.Printf("%d. %s\n", i+1, board[i].name)
+		} else {
+			i--
+		}
+	}
+	color.Set(color.FgHiWhite)
+
+	var input int
+	fmt.Print("Option number > ")
+	_, _ = fmt.Scanln(&input)
+	newBoard[input-1].points = -1
+	fmt.Println("Crossed out", board[input-1].name)
+	return newBoard
+}
