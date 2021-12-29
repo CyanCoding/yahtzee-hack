@@ -5,12 +5,14 @@ import (
 	"github.com/fatih/color"
 )
 
+// ScoreItem holds data on a scoreboard item's name, current point value, and ID
 type ScoreItem struct {
 	name   string
 	points int
 	id     int
 }
 
+// GenerateBoard creates blank (0's) data for each playable option
 func GenerateBoard() [13]ScoreItem {
 	board := [13]ScoreItem{}
 
@@ -102,6 +104,7 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	color.Set(color.FgHiYellow)
 	var i int
 	for i = 0; i < len(possibilities); i++ {
+		// Ex: 4. Three-of-a-kind (30 points)
 		fmt.Printf("%d. %s (%d", i+1, possibilities[i].name, possibilities[i].points)
 		if possibilities[i].points == 1 {
 			fmt.Println(" point)")
