@@ -34,9 +34,9 @@ func GenerateBoard() [13]ScoreItem {
 	return board
 }
 
-// FindPossibleOptions Finds the playable options from the given dice and scoreboard and prints them out.
-// Returns the vector of playable options with "Cross out" in the last position.
-func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
+// FindPossibleOptions Finds the playable options from the given dice and scoreboard and prompts the user to select one.
+// Returns a new board
+func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 	points := 0
 	for i := 0; i < 5; i++ {
 		points += dice[i]
@@ -94,29 +94,72 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	if CalculateYahtzee(m) == 1 {
 		// A Yahtzee is worth +50 points each time.
 		// The first is worth 50, then 100, then 150, etc.
-		yahtzeeValue := board[11].points + 50
+		yahtzeeValue := YahtzeeMultiplied
+
 		possibilities = append(possibilities, ScoreItem{"Yahtzee", yahtzeeValue, 11})
 	}
 	if board[12].points == 0 { // This is the "Chance" option
 		possibilities = append(possibilities, ScoreItem{"Chance", points, 12})
 	}
 
-	var i int
-	for i = 0; i < len(possibilities); i++ {
-		// Ex: 4. Three-of-a-kind (30 points)
-		fmt.Printf("%d. %s (%d", i+1, possibilities[i].name, possibilities[i].points)
+	newBoard := board
+	fmt.Print("Please type the name to fill in.")
+	fmt.Println(chalk.YellowLight())
+
+	for i := 0; i < len(possibilities); i++ {
+		// Ex: Three-of-a-kind (30 points)
+		fmt.Printf("%s (%d", possibilities[i].name, possibilities[i].points)
 		if possibilities[i].points == 1 {
 			fmt.Println(" point)")
 		} else {
 			fmt.Println(" points)")
 		}
 	}
+
 	fmt.Println(chalk.RedLight())
-	fmt.Printf("%d. Cross out", i+1)
+	fmt.Printf("Cross out")
 	fmt.Println(chalk.Reset())
 
-	possibilities = append(possibilities, ScoreItem{"Cross out", 0, 13})
-	return possibilities
+	badName := true
+	for badName {
+		var input string
+		fmt.Print("Name > ")
+		_, _ = fmt.Scanln(&input)
+
+		if strings.ToLower(input) == "cross out" {
+			newBoard = CrossOut(newBoard)
+			break
+		}
+
+		for i := 0; i < len(possibilities); i++ {
+			if strings.ToLower(possibilities[i].name) == strings.ToLower(input) {
+				for j := 0; j < len(newBoard); j++ {
+					if newBoard[j].id == possibilities[i].id {
+						newBoard[j].points = possibilities[i].points
+
+						if possibilities[i].id == 11 { // Add to Yahtzee  global variable
+							YahtzeeValue = YahtzeeValue + YahtzeeMultiplied
+							YahtzeeMultiplied += 50
+							newBoard[j].points = YahtzeeValue
+						}
+					}
+				}
+
+				badName = false
+				fmt.Println("Filled in", possibilities[i].name)
+				break
+			}
+		}
+
+		if badName {
+			fmt.Println(chalk.RedLight())
+			fmt.Print("Invalid name!")
+			fmt.Println(chalk.Reset())
+			fmt.Println()
+		}
+	}
+
+	return newBoard
 }
 
 func CrossOut(board [13]ScoreItem) [13]ScoreItem {

@@ -7,6 +7,9 @@ import (
 	"github.com/golang-demos/chalk"
 )
 
+var YahtzeeValue int = 0
+var YahtzeeMultiplied int = 50
+
 func main() {
 	board := GenerateBoard()
 	score := 0
@@ -61,35 +64,9 @@ func main() {
 					lastRoll[3],
 					lastRoll[4],
 				)
+
 				// Ask the user which option they want to fill out on their board
-				fmt.Print("Please pick one of the following to fill in.")
-				fmt.Println(chalk.YellowLight())
-				options := FindPossibleOptions(board, lastRoll)
-
-				// Until they pick a valid option
-				for true {
-					fmt.Print("Option number > ")
-					_, _ = fmt.Scanln(&input)
-
-					// If it's not a valid input number
-					if (input - 1) >= len(options) {
-						fmt.Print(chalk.RedLight())
-						fmt.Print("Invalid option!")
-						fmt.Println(chalk.Reset())
-						// TODO" Yahtzee should be +50 each time
-					} else { // It is a valid input number
-						if (input - 1) == (len(options) - 1) { // Cross out selected
-							board = CrossOut(board)
-						} else { // Regular option selected
-							for j := 0; j < len(board); j++ {
-								if board[j].id == options[input-1].id {
-									board[j].points = options[input-1].points
-								}
-							}
-						}
-						break // Only break when they've input a valid input number
-					}
-				}
+				board = FindPossibleOptions(board, lastRoll)
 			} else {
 				// We do this because they didn't even roll once
 				i--
