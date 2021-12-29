@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/golang-demos/chalk"
+	"strings"
 )
 
 // ScoreItem holds data on a scoreboard item's name, current point value, and ID
@@ -121,33 +122,46 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	newBoard := board
 	fmt.Print("\033[H\033[2J")
-	fmt.Print("Please select an option to cross out.")
+	fmt.Print("Please type in the name to cross it out.")
 	fmt.Println(chalk.YellowLight())
 
 	// Counter represents the 1., 2., 3., 4., etc. counter used to display
 	// an orderly list to the user. We can't use board[i].id or i because
 	// they'll skip over ones we can't cross out
 	counter := 1
-	// Offset represents the difference between counter and our input. As fewer options
-	// become available to cross out, the difference between counter and the real item
-	// the user intends to cross out becomes larger.
-	offset := 1
 	for i := 0; i < len(board); i++ {
 		if board[i].points == 0 {
 			// Ex: 4. Three-of-a-kind
-			fmt.Printf("%d. %s\n", counter, board[i].name)
+			fmt.Printf("%s\n", board[i].name)
 			counter++
-		} else {
-			offset--
 		}
 	}
 	fmt.Println(chalk.Reset())
 
-	var input int
-	fmt.Print("Option number > ")
-	_, _ = fmt.Scanln(&input)
-	newBoard[input-offset].points = -1
-	fmt.Println("Crossed out", board[input-offset].name)
+	var name string
+	badName := true
+	for badName {
+		var input string
+		fmt.Print("Name > ")
+		_, _ = fmt.Scanln(&input)
+		for i := 0; i < len(newBoard); i++ {
+			if strings.ToLower(newBoard[i].name) == strings.ToLower(input) {
+				newBoard[i].points = -1
+				name = newBoard[i].name
+				badName = false
+				break
+			}
+		}
+
+		if badName {
+			fmt.Println(chalk.RedLight())
+			fmt.Print("Invalid name!")
+			fmt.Println(chalk.Reset())
+			fmt.Println()
+		}
+	}
+
+	fmt.Println("Crossed out", name)
 	return newBoard
 }
 
