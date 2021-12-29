@@ -125,12 +125,22 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	fmt.Print("\033[H\033[2J")
 	fmt.Println("Please select an option to cross out.")
 	color.Set(color.FgHiYellow)
-	for i := 0; i < 13; i++ {
+
+	// Counter represents the 1., 2., 3., 4., etc. counter used to display
+	// an orderly list to the user. We can't use board[i].id or i because
+	// they'll skip over ones we can't cross out
+	counter := 1
+	// Offset represents the difference between counter and our input. As fewer options
+	// become available to cross out, the difference between counter and the real item
+	// the user intends to cross out becomes larger.
+	offset := 1
+	for i := 0; i < len(board); i++ {
 		if board[i].points == 0 {
 			// Ex: 4. Three-of-a-kind
-			fmt.Printf("%d. %s\n", i+1, board[i].name)
+			fmt.Printf("%d. %s\n", counter, board[i].name)
+			counter++
 		} else {
-			i--
+			offset--
 		}
 	}
 	color.Set(color.FgHiWhite)
@@ -138,7 +148,7 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	var input int
 	fmt.Print("Option number > ")
 	_, _ = fmt.Scanln(&input)
-	newBoard[input-1].points = -1
-	fmt.Println("Crossed out", board[input-1].name)
+	newBoard[input-offset].points = -1
+	fmt.Println("Crossed out", board[input-offset].name)
 	return newBoard
 }
