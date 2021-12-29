@@ -62,10 +62,9 @@ func main() {
 						fmt.Println("Invalid option!")
 						color.Set(color.FgHiWhite)
 					} else {
-						// Check if they entered the "Cross out" option
-						if (input - 1) == (len(options) - 1) {
-							fmt.Println("Cross out option selected!")
-						} else {
+						if (input - 1) == (len(options) - 1) { // Cross out selected
+							board = CrossOut(board)
+						} else { // Regular option selected
 							for j := 0; j < (len(board) - 1); j++ {
 								if board[j].id == options[input-1].id {
 									board[j].points = options[input-1].points
