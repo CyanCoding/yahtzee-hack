@@ -172,10 +172,11 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 	for i := 0; i < 6; i++ {
 		if board[i].points == -1 {
 			fmt.Println(chalk.Strikethrough())
+			fmt.Printf("| %s             : 0", board[i].name)
 		} else {
 			fmt.Println(chalk.Reset())
+			fmt.Printf("| %s             : %d", board[i].name, board[i].points)
 		}
-		fmt.Printf("| %s             : %d", board[i].name, board[i].points)
 	}
 	fmt.Println(chalk.Reset())
 	fmt.Println("-------------------")
@@ -199,52 +200,60 @@ func DisplayScoreBoard(board [13]ScoreItem) {
 
 	if board[6].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Three-of-a-kind : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Three-of-a-kind : %d", board[6].points)
 	}
-	fmt.Printf("| Three-of-a-kind : %d", board[6].points)
 
 	if board[7].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Four-of-a-kind  : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Four-of-a-kind  : %d", board[7].points)
 	}
-	fmt.Printf("| Four-of-a-kind  : %d", board[7].points)
 
 	if board[8].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Full house      : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Full house      : %d", board[8].points)
 	}
-	fmt.Printf("| Full house      : %d", board[8].points)
 
 	if board[9].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Small straight  : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Small straight  : %d", board[9].points)
 	}
-	fmt.Printf("| Small straight  : %d", board[9].points)
 
 	if board[10].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Large straight  : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Large straight  : %d", board[10].points)
 	}
-	fmt.Printf("| Large straight  : %d", board[10].points)
 
 	if board[11].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Yahtzee         : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Yahtzee         : %d", board[11].points)
 	}
-	fmt.Printf("| Yahtzee         : %d", board[11].points)
 
 	if board[12].points == -1 {
 		fmt.Println(chalk.Strikethrough())
+		fmt.Printf("| Chance          : 0")
 	} else {
 		fmt.Println(chalk.Reset())
+		fmt.Printf("| Chance          : %d", board[12].points)
 	}
-	fmt.Printf("| Chance          : %d", board[12].points)
+
 	fmt.Println(chalk.Reset())
 	fmt.Println("-------------------")
 
