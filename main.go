@@ -41,6 +41,7 @@ func main() {
 			DisplayScoreBoard(board)
 			clearScreen = false
 			fmt.Println()
+			i--
 		} else if input == 2 { // Enter dice
 			var lastRoll, dice [5]int
 			fmt.Print("\033[H\033[2J")
