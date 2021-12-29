@@ -13,6 +13,7 @@ func main() {
 
 	// Infinite loop until the game ends
 	for i := 1; i <= 13; i++ {
+		score = CalculateScore(board)
 		color.Set(color.FgHiWhite)
 		fmt.Print("\033[H\033[2J")
 		fmt.Println("CyanCoding's Yahtzee Hack!")
@@ -90,6 +91,5 @@ func main() {
 			i-- // We don't want to waste a turn on a bad action
 			continue
 		}
-
 	}
 }

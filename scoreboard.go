@@ -152,3 +152,14 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	fmt.Println("Crossed out", board[input-offset].name)
 	return newBoard
 }
+
+// CalculateScore takes the board and returns the point values. Ignores -1 (crossed out) values
+func CalculateScore(board [13]ScoreItem) (score int) {
+	for i := 0; i < len(board); i++ {
+		if board[i].points != -1 {
+			score += board[i].points
+		}
+	}
+
+	return
+}
