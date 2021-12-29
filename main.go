@@ -73,7 +73,11 @@ func main() {
 				i--
 			}
 		} else { // Invalid action
-			fmt.Println("Invalid action. Try again.")
+			fmt.Println(chalk.RedLight())
+			fmt.Print("Invalid action. Try again.")
+			fmt.Println(chalk.Reset())
+			fmt.Println()
+			clearScreen = false
 			i-- // We don't want to waste a turn on a bad action
 			continue
 		}
