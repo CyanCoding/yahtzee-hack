@@ -71,7 +71,7 @@ func main() {
 						if (input - 1) == (len(options) - 1) { // Cross out selected
 							board = CrossOut(board)
 						} else { // Regular option selected
-							for j := 0; j < (len(board) - 1); j++ {
+							for j := 0; j < len(board); j++ {
 								if board[j].id == options[input-1].id {
 									board[j].points = options[input-1].points
 								}
