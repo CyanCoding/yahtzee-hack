@@ -94,6 +94,9 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 		yahtzeeValue := board[11].points + 50
 		possibilities = append(possibilities, ScoreItem{"Yahtzee", yahtzeeValue})
 	}
+	if board[12].points == 0 { // This is the "Chance" option
+		possibilities = append(possibilities, ScoreItem{"Chance", points, 12})
+	}
 
 	color.Set(color.FgHiYellow)
 	var i int
