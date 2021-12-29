@@ -76,6 +76,7 @@ func main() {
 						fmt.Print(chalk.RedLight())
 						fmt.Print("Invalid option!")
 						fmt.Println(chalk.Reset())
+						// TODO" Yahtzee should be +50 each time
 					} else { // It is a valid input number
 						if (input - 1) == (len(options) - 1) { // Cross out selected
 							board = CrossOut(board)
