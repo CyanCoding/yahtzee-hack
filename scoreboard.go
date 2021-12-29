@@ -42,7 +42,6 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	}
 
 	m := DiceMap(dice)
-	//possibilities := orderedmap.NewOrderedMap()
 	possibilities := make([]ScoreItem, 0)
 
 	// Calculate upper hand
