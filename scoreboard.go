@@ -8,24 +8,25 @@ import (
 type ScoreItem struct {
 	name   string
 	points int
+	id     int
 }
 
 func GenerateBoard() [13]ScoreItem {
 	board := [13]ScoreItem{}
 
-	board[0] = ScoreItem{"1's", 0}
-	board[1] = ScoreItem{"2's", 0}
-	board[2] = ScoreItem{"3's", 0}
-	board[3] = ScoreItem{"4's", 0}
-	board[4] = ScoreItem{"5's", 0}
-	board[5] = ScoreItem{"6's", 0}
-	board[6] = ScoreItem{"Three-of-a-kind", 0}
-	board[7] = ScoreItem{"Four-of-a-kind", 0}
-	board[8] = ScoreItem{"Full house", 0}
-	board[9] = ScoreItem{"Small straight", 0}
-	board[10] = ScoreItem{"Large straight", 0}
-	board[11] = ScoreItem{"Yahtzee", 0}
-	board[12] = ScoreItem{"Chance", 0}
+	board[0] = ScoreItem{"1's", 0, 0}
+	board[1] = ScoreItem{"2's", 0, 1}
+	board[2] = ScoreItem{"3's", 0, 2}
+	board[3] = ScoreItem{"4's", 0, 3}
+	board[4] = ScoreItem{"5's", 0, 4}
+	board[5] = ScoreItem{"6's", 0, 5}
+	board[6] = ScoreItem{"Three-of-a-kind", 0, 6}
+	board[7] = ScoreItem{"Four-of-a-kind", 0, 7}
+	board[8] = ScoreItem{"Full house", 0, 8}
+	board[9] = ScoreItem{"Small straight", 0, 9}
+	board[10] = ScoreItem{"Large straight", 0, 10}
+	board[11] = ScoreItem{"Yahtzee", 0, 11}
+	board[12] = ScoreItem{"Chance", 0, 12}
 
 	return board
 }
@@ -45,54 +46,54 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	// Calculate upper hand
 	// Note: it's m[1] instead of m[0] because 1 references the number, not the position
 	if m[1] > 0 && board[0].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"1's", m[1]})
+		possibilities = append(possibilities, ScoreItem{"1's", m[1], 0})
 	}
 
 	if m[2] > 0 && board[1].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"2's", m[2] * 2})
+		possibilities = append(possibilities, ScoreItem{"2's", m[2] * 2, 1})
 	}
 
 	if m[3] > 0 && board[2].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"3's", m[3] * 3})
+		possibilities = append(possibilities, ScoreItem{"3's", m[3] * 3, 2})
 	}
 
 	if m[4] > 0 && board[3].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"4's", m[4] * 4})
+		possibilities = append(possibilities, ScoreItem{"4's", m[4] * 4, 3})
 	}
 
 	if m[5] > 0 && board[4].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"5's", m[5] * 5})
+		possibilities = append(possibilities, ScoreItem{"5's", m[5] * 5, 4})
 	}
 
 	if m[6] > 0 && board[5].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"6's", m[6] * 6})
+		possibilities = append(possibilities, ScoreItem{"6's", m[6] * 6, 5})
 	}
 
 	// Calculate lower hand
 	if CalculateThreeKind(m) == 1 && board[6].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"Three-of-a-kind", points})
+		possibilities = append(possibilities, ScoreItem{"Three-of-a-kind", points, 6})
 	}
 
 	if CalculateFourKind(m) == 1 && board[7].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"Four-of-a-kind", points})
+		possibilities = append(possibilities, ScoreItem{"Four-of-a-kind", points, 7})
 	}
 
 	if CalculateFullHouse(m) == 1 && board[8].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"Full house", 25})
+		possibilities = append(possibilities, ScoreItem{"Full house", 25, 8})
 	}
 
 	if CalculateSmallStraight(dice) == 1 && board[9].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"Small straight", 30})
+		possibilities = append(possibilities, ScoreItem{"Small straight", 30, 9})
 	}
 
 	if CalculateLargeStraight(dice) == 1 && board[10].points == 0 {
-		possibilities = append(possibilities, ScoreItem{"Large straight", 40})
+		possibilities = append(possibilities, ScoreItem{"Large straight", 40, 10})
 	}
 	if CalculateYahtzee(m) == 1 {
 		// A Yahtzee is worth +50 points each time.
 		// The first is worth 50, then 100, then 150, etc.
 		yahtzeeValue := board[11].points + 50
-		possibilities = append(possibilities, ScoreItem{"Yahtzee", yahtzeeValue})
+		possibilities = append(possibilities, ScoreItem{"Yahtzee", yahtzeeValue, 11})
 	}
 	if board[12].points == 0 { // This is the "Chance" option
 		possibilities = append(possibilities, ScoreItem{"Chance", points, 12})
@@ -113,6 +114,6 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) []ScoreItem {
 	fmt.Printf("%d. Cross out\n", i+1)
 	color.Set(color.FgHiWhite)
 
-	possibilities = append(possibilities, ScoreItem{"Cross out", 0})
+	possibilities = append(possibilities, ScoreItem{"Cross out", 0, 13})
 	return possibilities
 }
