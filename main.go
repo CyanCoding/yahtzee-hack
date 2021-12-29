@@ -8,14 +8,15 @@ import (
 )
 
 func main() {
-	fmt.Print("\033[H\033[2J")
-	fmt.Println("CyanCoding's Yahtzee Hack!")
-
 	board := GenerateBoard()
 	score := 0
 
 	// Infinite loop until the game ends
 	for i := 1; i <= 13; i++ {
+		color.Set(color.FgHiWhite)
+		fmt.Print("\033[H\033[2J")
+		fmt.Println("CyanCoding's Yahtzee Hack!")
+
 		fmt.Println("round", i, "- score", score) // round 0 - score 0
 		fmt.Println("Actions:")
 		fmt.Println("1. View current hand")
