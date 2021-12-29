@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -50,9 +51,29 @@ func main() {
 					lastRoll[4],
 				)
 				fmt.Println("Please pick one of the following to fill in.")
-				FindPossibleOptions(board, lastRoll)
-				fmt.Print("Option number > ")
-				_, _ = fmt.Scanln(&input)
+				options := FindPossibleOptions(board, lastRoll)
+				for true {
+					fmt.Print("Option number > ")
+					_, _ = fmt.Scanln(&input)
+
+					if (input - 1) >= len(options) {
+						color.Set(color.FgHiRed)
+						fmt.Println("Invalid option!")
+						color.Set(color.FgHiWhite)
+					} else {
+						// Check if they entered the "Cross out" option
+						if (input - 1) == (len(options) - 1) {
+							fmt.Println("Cross out option selected!")
+						} else {
+							for j := 0; j < (len(board) - 1); j++ {
+								if board[j].id == options[input-1].id {
+									board[j].points = options[input-1].points
+								}
+							}
+						}
+						break
+					}
+				}
 			}
 		} else if input == 3 { // Calculate score
 
