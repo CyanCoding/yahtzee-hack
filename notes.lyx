@@ -1,0 +1,2631 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\title{Calculating Yahtzee Probability}
+\date{December 26, 2021}
+\author{Camden Mac Leod}
+\usepackage{bm}
+\usepackage{nicefrac}
+\usepackage{hyperref}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The probability of Yahtzee
+\end_layout
+
+\begin_layout Date
+Camden Mac Leod
+\end_layout
+
+\begin_layout Date
+December 26, 2021
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Next-roll probability vs.
+ next-few-roll probability
+\end_layout
+
+\begin_layout Subsection
+Next-roll probability
+\end_layout
+
+\begin_layout Standard
+This is simple to calculate.
+ If you are rolling five dice and need five of them to match, you have a
+ simple problem that can be calculated with binomial probability.
+ Binomial probability predicts yes/no (binary) results from a set of 
+\emph on
+independent
+\emph default
+ experiments.
+ This is useful in predicting the next roll and would therefore be useful
+ on the final dice roll because it does not predict the outcome of a later
+ roll.
+ To calculate the binomial probability, first you need to calculate the
+ number of combinations from your provided numbers.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $nCr$
+\end_inset
+
+ is the number of combinations in a given set
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $r$
+\end_inset
+
+ is the number of dice you need to match the first number
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of dice you are rolling
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+nCr=\frac{n!}{r!(n-r)!}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You then take this result and plug it into a binomial probability formula
+ using the same values for the variables.
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ is the probability of an individual occurrence, so in this case it's 
+\begin_inset Formula $\nicefrac{1}{6}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(x=r)=nCr\times p^{r}\times(1-p)^{n-r}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If we wanted to calculate the chances for a Yahtzee then, you see that after
+ one roll your chances are roughly 0.08%, or 
+\begin_inset Formula $\frac{8}{10,000}$
+\end_inset
+
+.
+ Notice below that we use 4 instead of 5 because the first dice rolled doesn't
+ matter.
+ The probability of rolling all five dice to be a certain value (like all
+ 1's) is roughly 0.012%, but that multiplied by 6 gives us roughly 0.08%.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(x)=\frac{4!}{(4-4)!4!}\times(\nicefrac{1}{6})^{4}\times(1-\nicefrac{1}{6})^{4-4}\approx0.08\%
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Next-few-roll probability
+\end_layout
+
+\begin_layout Standard
+Next-roll probability is simple.
+ You plug the numbers into the formula and get your expected result.
+ The task becomes infinitely more complicated when you have more rolls involved.
+ A smart player might roll a Yahtzee over the course of three turns like
+ this:
+\end_layout
+
+\begin_layout Enumerate
+5 5 3 1 2
+\end_layout
+
+\begin_layout Enumerate
+5 5 5 4 6
+\end_layout
+
+\begin_layout Enumerate
+5 5 5 5 5
+\end_layout
+
+\begin_layout Standard
+Their chances of getting a Yahtzee on the first attempt was 0.08% as we calculate
+d above.
+ But as they set aside other dice and got closer to a Yahtzee, their chances
+ went up.
+ How can you draw a conclusion on the 
+\emph on
+overall
+\emph default
+ probability of getting a Yahtzee over the course of all three rolls, rather
+ than just one? What if the player was allowed five rolls? At how many rolls
+ does your chance of obtaining a Yahtzee go above 50%?
+\end_layout
+
+\begin_layout Standard
+These all require a 
+\emph on
+dependent
+\emph default
+ formula that takes into account the previous rolls and calculates a possible
+ outcome.
+\end_layout
+
+\begin_layout Section
+Markov chains and transition matrices
+\end_layout
+
+\begin_layout Standard
+A Markov chain describes the likelihood of moving from one state to the
+ next solely based on the previous state.
+ Markov chains are useful in many real-world situations like cruise control,
+ typing prediction, and page ranking used at Google.
+ The process is simple in theory, but a bit tricky when you have so many
+ plugs and slots.
+ We should be able to calculate our answer given the transition matrix below
+ in a 5x5 grid (five being the amount of dice available to roll).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can fill in each question mark with a fraction that describes our likelihood
+ of staying in that state or progressing to the next.
+ It's important to start small, so we'll come back to this later.
+\end_layout
+
+\begin_layout Section
+Probability with less dice
+\end_layout
+
+\begin_layout Standard
+It's tricky to calculate the probability of achieving different goals when
+ you have five dice.
+ So we'll start small and it should make the whole process much easier to
+ understand.
+\end_layout
+
+\begin_layout Subsection
+One dice
+\end_layout
+
+\begin_layout Standard
+This is as simple as it gets.
+ When you roll a single die your chances of getting any result are 
+\begin_inset Formula $\nicefrac{1}{6}$
+\end_inset
+
+ because the die is six-sided.
+ If we want a specific result, our chance then is 
+\begin_inset Formula $\nicefrac{1}{6}$
+\end_inset
+
+ and our chance of 
+\emph on
+not getting that result
+\emph default
+ is 
+\begin_inset Formula $\nicefrac{5}{6}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}A & \nicefrac{1}{6}\\
+B & \nicefrac{5}{6}
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is the last time we'll assume we want a specific result, like getting
+ exactly a 6.
+ That's a whole other ballgame.
+ In a Yahtzee it doesn't matter what numbers are present on the dice as
+ long as they match.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{sec:two}
+\end_layout
+
+\end_inset
+
+Two dice
+\end_layout
+
+\begin_layout Standard
+This is still very simple.
+ In a given two-dice roll you have 
+\begin_inset Formula $6\times6=36$
+\end_inset
+
+ possible outcomes.
+ When you roll two dice one of two things will happen.
+\end_layout
+
+\begin_layout Itemize
+Both dice match (AA)
+\end_layout
+
+\begin_layout Itemize
+Neither dice match (AB)
+\end_layout
+
+\begin_layout Standard
+We can calculate our chances of both dice matching to be 
+\begin_inset Formula $\nicefrac{6}{36}$
+\end_inset
+
+.
+ This makes sense because there are six ways you can score a pair from two
+ dice: 
+\begin_inset Formula $\{1,1\},\{2,2\},\{3,3\},\{4,4\},\{5,5\},\{6,6\}$
+\end_inset
+
+.
+ So now we can fill in our dice probability chart.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}A & A & \nicefrac{6}{36}\\
+A & B & \nicefrac{30}{36}
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember, we can only get one of the two outcomes so they have to add up
+ to 1.
+ 
+\begin_inset Formula $\nicefrac{6}{36}+\nicefrac{30}{36}=1$
+\end_inset
+
+ so we know we're good.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{sec:three}
+\end_layout
+
+\end_inset
+
+Three dice
+\end_layout
+
+\begin_layout Standard
+Getting a little more complicated but not by much.
+ In a given three-dice roll you have 
+\begin_inset Formula $6\times6\times6=216$
+\end_inset
+
+ possibilities.
+ When you roll three dice one of the following will happen.
+\end_layout
+
+\begin_layout Itemize
+They all match (AAA)
+\end_layout
+
+\begin_layout Itemize
+Two of them match (AAB)
+\end_layout
+
+\begin_layout Itemize
+None of them match (ABC)
+\end_layout
+
+\begin_layout Standard
+There are six ways all the dice can match: 
+\begin_inset Formula $\{1,1,1\},\{2,2,2\},\{3,3,3\},\{4,4,4\},\{5,5,5\},\{6,6,6\}$
+\end_inset
+
+.
+ In our probability chart we see the following values:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}A & A & A & \nicefrac{6}{216}\\
+A & A & B & \nicefrac{90}{216}\\
+A & B & C & \nicefrac{120}{216}
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To calculate the second row we realize that there are six possibilities
+ for A, five for B, and three places where B could be present.
+ 
+\begin_inset Formula $6\times5\times3=\nicefrac{90}{216}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To calculate the final row we could take 
+\begin_inset Formula $\nicefrac{216}{216}-\nicefrac{6}{216}-\nicefrac{90}{216}$
+\end_inset
+
+, but it's better to check our math.
+ The chances of rolling the first die one particular number is 
+\begin_inset Formula $6$
+\end_inset
+
+.
+ The chances of rolling another die that is different from the first is
+ 
+\begin_inset Formula $\nicefrac{5}{6}$
+\end_inset
+
+.
+ The chances of rolling a third dice different from both the first dice
+ is 
+\begin_inset Formula $\nicefrac{4}{6}$
+\end_inset
+
+.
+ This gives us 
+\begin_inset Formula $\nicefrac{5}{6}\times\nicefrac{4}{6}=\nicefrac{120}{216}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Four dice
+\end_layout
+
+\begin_layout Standard
+There are 
+\begin_inset Formula $6^{4}=1296$
+\end_inset
+
+ possibilities here.
+\end_layout
+
+\begin_layout Itemize
+\noindent
+They all match (AAAA) - 
+\begin_inset Formula $\nicefrac{6}{1296}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Three match (AAAB) - 
+\begin_inset Formula $6\times5\times4=\nicefrac{120}{1296}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Two pairs (AABB) - 
+\begin_inset Formula $6\times5\times3=\nicefrac{90}{1296}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+One pair with two others (AABC) - 
+\begin_inset Formula $6\times5\times4\times3\times2=\nicefrac{720}{1296}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+None of them match (ABCD) - 
+\begin_inset Formula $\nicefrac{6}{6}\times\nicefrac{5}{6}\times\nicefrac{4}{6}\times\nicefrac{3}{6}=\nicefrac{360}{1296}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our new concepts here are the two pairs and one pair with two others.
+\end_layout
+
+\begin_layout Standard
+Two pairs is 
+\begin_inset Formula $6\times5\times3$
+\end_inset
+
+ because this is the same probability as seen in the three dice stage except
+ another dice is added.
+ It's the same equation, but because we added a new dice it's 
+\begin_inset Formula $\nicefrac{1}{6}$
+\end_inset
+
+ less, e.g.
+ 
+\begin_inset Formula $\nicefrac{90}{216}$
+\end_inset
+
+ vs.
+ 
+\begin_inset Formula $\nicefrac{90}{1296}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+One pair with two others is the most likely option here coming in at 
+\begin_inset Formula $\nicefrac{720}{1296}$
+\end_inset
+
+ (55%).
+ The calculation is 
+\begin_inset Formula $6\times5\times4\times3\times2$
+\end_inset
+
+ because there is a probability of 5 for B in 3 positions and 4 for C in
+ 2 positions.
+ So written in different terms, the calculation is 
+\begin_inset Formula $(6\times1)\times(5\times3)\times(4\times2)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Now we can draw our probability chart for four dice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}A & A & A & A & \nicefrac{6}{1296}\\
+A & A & A & B & \nicefrac{120}{1296}\\
+A & A & B & B & \nicefrac{90}{1296}\\
+A & A & B & C & \nicefrac{720}{1296}\\
+A & B & C & D & \nicefrac{360}{1296}
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{sec:five}
+\end_layout
+
+\end_inset
+
+Five dice
+\end_layout
+
+\begin_layout Standard
+This is as hard as it gets, fortunately.
+ There are 
+\begin_inset Formula $6^{5}=7776$
+\end_inset
+
+ possibilities here.
+ We'll use the official Yahtzee names here.
+\end_layout
+
+\begin_layout Itemize
+Yahtzee (AAAAA) - 
+\begin_inset Formula $\nicefrac{6}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Four-of-a-kind (AAAAB) - 
+\begin_inset Formula $6\times5\times5=\nicefrac{150}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Full house (AAABB) - 
+\begin_inset Formula $6\times5\times5\times2=\nicefrac{300}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Three-of-a-kind (AAABC) - 
+\begin_inset Formula $6\times5\times5\times4\times2=\nicefrac{1200}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Small straight (AABCD) - 
+\begin_inset Formula $6\times5\times5\times4\times3\times2=\nicefrac{3600}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Two pairs (AABBC) - 
+\begin_inset Formula $6\times5\times3\times4\times5=\nicefrac{1800}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Long straight (ABCDE) - 
+\begin_inset Formula $\nicefrac{6}{6}\times\nicefrac{5}{6}\times\nicefrac{4}{6}\times\nicefrac{3}{6}\times\nicefrac{2}{6}=\nicefrac{720}{7776}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Below is our probability chart for all five dice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}A & A & A & A & A & \nicefrac{6}{7776}\\
+A & A & A & A & B & \nicefrac{150}{7776}\\
+A & A & A & B & B & \nicefrac{300}{7776}\\
+A & A & A & B & C & \nicefrac{1200}{7776}\\
+A & A & B & C & D & \nicefrac{3600}{7776}\\
+A & A & B & B & C & \nicefrac{1800}{7776}\\
+A & B & C & D & E & \nicefrac{720}{7776}
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Looking at the probability here, we see that you are more than twice as
+ likely to roll a small straight than a three-of-a-kind, and twenty-four
+ times more likely to roll a small straight than a four-of-a-kind.
+\end_layout
+
+\begin_layout Standard
+Both a three-of-a-kind and four-of-a-kind can score a maximum of 30 points
+ (the value of a small straight).
+ You have a 
+\begin_inset Formula $\nicefrac{1}{7776}$
+\end_inset
+
+ chance of scoring 
+\emph on
+the same amount of points
+\emph default
+ in a three-of-a-kind or four-of-a-kind (excluding a Yahtzee), because the
+ roll would have to consist of five 6's.
+ That's 0.012%.
+ Not great odds.
+\end_layout
+
+\begin_layout Standard
+Strategically, this means a player should always cancel out a four-of-a-kind
+ and three-of-a-kind before a small straight if it comes down to it.
+ It also means that you should wait until later in the game to attempt a
+ small straight and potentially re-roll one that you might get from chance,
+ because you are so likely to get one again (55.56%).
+\end_layout
+
+\begin_layout Section
+Creating our transition matrix
+\end_layout
+
+\begin_layout Standard
+Now we get to the exciting part.
+ A transition matrix shows us the fractional chances of getting from one
+ state to the next.
+ This will go hand in hand with our Markov chain later.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?\\
+? & ? & ? & ? & ?
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can fill in our unavailable spaces with 0's since a smart player would
+ never re-roll dice they already had matching.
+ That is, if you rolled five dice and three matched, you would always re-roll
+ exactly two.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & ?\\
+0 & ? & ? & ? & ?\\
+0 & 0 & ? & ? & ?\\
+0 & 0 & 0 & ? & ?\\
+0 & 0 & 0 & 0 & ?
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We also know that once you roll five matching dice you would always keep
+ it.
+ This means our final position 
+\begin_inset Formula $(5,5)$
+\end_inset
+
+ has a 1 in it.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & ?\\
+0 & ? & ? & ? & ?\\
+0 & 0 & ? & ? & ?\\
+0 & 0 & 0 & ? & ?\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can fill in the numbers in the column above the 1 because they represent
+ our chances of moving from the state below to the state above.
+ In this case, it's always 
+\begin_inset Formula $\frac{1}{6}^{n}$
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the distance from 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & \nicefrac{1}{1296}\\
+0 & ? & ? & ? & \nicefrac{1}{216}\\
+0 & 0 & ? & ? & \nicefrac{1}{36}\\
+0 & 0 & 0 & ? & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In English this means if we roll five dice our chances of getting all five
+ matching is in the position 
+\begin_inset Formula $(5,1)$
+\end_inset
+
+ or 
+\begin_inset Formula $\nicefrac{1}{1296}$
+\end_inset
+
+, which is 0.08%.
+ You should start to become familiar with these numbers and as we've found
+ in several other places, our chances of rolling a Yahtzee 
+\emph on
+is
+\emph default
+ 0.08% so we know we're on the right track.
+\end_layout
+
+\begin_layout Standard
+An important note is that each row here must equal 1 because you have to
+ have at least one of the outcomes occur.
+ This makes it easy to figure out some of our next rows and double check
+ our math.
+ Let's fill in the fourth row.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & \nicefrac{1}{1296}\\
+0 & ? & ? & ? & \nicefrac{1}{216}\\
+0 & 0 & ? & ? & \nicefrac{1}{36}\\
+0 & 0 & 0 & \nicefrac{5}{6} & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, our fourth row (which represents when a person is rolling one die)
+ tells us we have a 
+\begin_inset Formula $\nicefrac{1}{6}$
+\end_inset
+
+ chance of getting the number we need and a 
+\begin_inset Formula $\nicefrac{5}{6}$
+\end_inset
+
+ chance of staying at that level.
+\end_layout
+
+\begin_layout Standard
+For our third row we have two dice we are re-rolling.
+ We have a 
+\begin_inset Formula $\nicefrac{5}{6}\times\nicefrac{5}{6}=\nicefrac{25}{36}$
+\end_inset
+
+ chance of not getting what we need.
+ This means we have 
+\begin_inset Formula $\nicefrac{10}{36}$
+\end_inset
+
+ chance of getting one matching dice but not the other (
+\begin_inset Formula $\nicefrac{1}{6}\times\nicefrac{5}{6}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & \nicefrac{1}{1296}\\
+0 & ? & ? & ? & \nicefrac{1}{216}\\
+0 & 0 & \nicefrac{25}{36} & \nicefrac{10}{36} & \nicefrac{1}{36}\\
+0 & 0 & 0 & \nicefrac{5}{6} & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our fourth row is the hardest to calculate.
+ In our fourth row we are re-rolling three dice.
+ We have a 
+\begin_inset Formula $\nicefrac{1}{6}\times\nicefrac{1}{6}\times\nicefrac{5}{6}\times3=\nicefrac{15}{216}$
+\end_inset
+
+ chance of getting a pair from three.
+ Now you might be catching on now and thinking that the chance of missing
+ all three would be 
+\begin_inset Formula $\nicefrac{5}{6}\times\nicefrac{5}{6}\times\nicefrac{5}{6}=\nicefrac{125}{216}$
+\end_inset
+
+.
+ This is incorrect because a player might roll a pair on the first roll
+ and then roll three matching dice (that don't match the pair) on their
+ second roll.
+ They would then keep the three and re-roll the pair.
+\end_layout
+
+\begin_layout Standard
+In order for us to calculate this we simply need to subtract the chance
+ of getting all three matching from that number.
+ If we go back to our 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hyperref[sec:three]{three dice}
+\end_layout
+
+\end_inset
+
+ section we see a 
+\begin_inset Formula $\nicefrac{6}{216}$
+\end_inset
+
+ chance of getting three matching.
+ We also have to subtract one from that number because one of those matches
+ would create a Yahtzee.
+ This gives us 
+\begin_inset Formula $\nicefrac{125}{216}-\nicefrac{5}{216}=\nicefrac{120}{216}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Lastly, we have the chance we get three matching and re-roll the other two.
+ This would be 
+\begin_inset Formula $\nicefrac{5}{6}\times\nicefrac{5}{6}\times\nicefrac{1}{6}\times3$
+\end_inset
+
+.
+ This is simply the reverse of our above equation which got us 
+\begin_inset Formula $\nicefrac{15}{216}$
+\end_inset
+
+.
+ That leaves us 
+\begin_inset Formula $\nicefrac{75}{216}$
+\end_inset
+
+, which we also add that magic 
+\begin_inset Formula $\nicefrac{5}{216}$
+\end_inset
+
+ chance that we jumped ship and are re-rolling the pair instead of the three-of-
+a-kind.
+ Thankfully, adding up all four of these equals 
+\begin_inset Formula $\nicefrac{216}{216}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}? & ? & ? & ? & \nicefrac{1}{1296}\\
+0 & \nicefrac{120}{216} & \nicefrac{80}{216} & \nicefrac{15}{216} & \nicefrac{1}{216}\\
+0 & 0 & \nicefrac{25}{36} & \nicefrac{10}{36} & \nicefrac{1}{36}\\
+0 & 0 & 0 & \nicefrac{5}{6} & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We only have one row left, which is much easier than the last one because
+ we don't need to assume they switch/don't switch their current path.
+\end_layout
+
+\begin_layout Itemize
+Cell 
+\begin_inset Formula $(1,1)$
+\end_inset
+
+ represents your chance of rolling and nothing matching.
+ That's 
+\begin_inset Formula $\nicefrac{5}{6}\times\nicefrac{4}{6}\times\nicefrac{3}{6}\times\nicefrac{2}{6}=\nicefrac{120}{1296}$
+\end_inset
+
+.
+ If you did roll with nothing matching you would essentially have a large
+ straight.
+ You'll notice in the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hyperref[sec:five]{five dice}
+\end_layout
+
+\end_inset
+
+ section that 
+\begin_inset Formula $120$
+\end_inset
+
+ is six times less than your chance of getting a large straight so we know
+ we're on the right path.
+\end_layout
+
+\begin_layout Itemize
+Cell 
+\begin_inset Formula $(1,2)$
+\end_inset
+
+ is your chance of rolling a pair.
+ Again we can reference our 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hyperref[sec:five]{five dice}
+\end_layout
+
+\end_inset
+
+ section.
+ There's two possibilities of a pair; 
+\begin_inset Formula $\nicefrac{1800}{7776}+\nicefrac{3600}{7776}\div6=\nicefrac{900}{1296}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Cell 
+\begin_inset Formula $(1,3)$
+\end_inset
+
+ is your chance of rolling three-of-a-kind from five.
+ That's 
+\begin_inset Formula $\nicefrac{1200}{7776}+\nicefrac{300}{7776}\div6=\nicefrac{250}{1296}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Cell 
+\begin_inset Formula $(1,4)$
+\end_inset
+
+ is your chance of rolling a four-of-a-kind from five.
+ That's 
+\begin_inset Formula $\nicefrac{25}{1296}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{pmatrix}\nicefrac{120}{1296} & \nicefrac{900}{1296} & \nicefrac{250}{1296} & \nicefrac{25}{1296} & \nicefrac{1}{1296}\\
+0 & \nicefrac{120}{216} & \nicefrac{80}{216} & \nicefrac{15}{216} & \nicefrac{1}{216}\\
+0 & 0 & \nicefrac{25}{36} & \nicefrac{10}{36} & \nicefrac{1}{36}\\
+0 & 0 & 0 & \nicefrac{5}{6} & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Yay! Our whole matrix is filled out.
+\end_layout
+
+\begin_layout Section
+Calculating probability over several rounds
+\end_layout
+
+\begin_layout Standard
+This is simple now that we have our base matrix finished.
+ We simply need to send it to the third power to analyze its probability
+ over three rolls.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{3}=\begin{pmatrix}\nicefrac{120}{1296} & \nicefrac{900}{1296} & \nicefrac{250}{1296} & \nicefrac{25}{1296} & \nicefrac{1}{1296}\\
+0 & \nicefrac{120}{216} & \nicefrac{80}{216} & \nicefrac{15}{216} & \nicefrac{1}{216}\\
+0 & 0 & \nicefrac{25}{36} & \nicefrac{10}{36} & \nicefrac{1}{36}\\
+0 & 0 & 0 & \nicefrac{5}{6} & \nicefrac{1}{6}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}^{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a slightly intensive process with such a big matrix.
+ It's better to just leave it to a computer because a task like this could
+ take quite a long time by hand.
+ Here are our results:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{3}=\begin{pmatrix}\nicefrac{6000}{7558272} & \nicefrac{1935000}{7558272} & \nicefrac{3419375}{7558272} & \nicefrac{1850000}{7558272} & \nicefrac{347897}{7558272}\\
+0 & \nicefrac{1296000}{7558272} & \nicefrac{3294000}{7558272} & \nicefrac{2389500}{7558272} & \nicefrac{584772}{7558272}\\
+0 & 0 & \nicefrac{2531250}{7558272} & \nicefrac{3685500}{7558272} & \nicefrac{1341522}{7558272}\\
+0 & 0 & 0 & \nicefrac{4374000}{7558272} & \nicefrac{3184272}{7558272}\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If we convert those to percentages it's much more readable:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{3}=\begin{pmatrix}0.1\% & 25.6\% & 45.2\% & 24.5\% & 4.6\%\\
+0 & 17.1\% & 43.6\% & 31.6\% & 7.7\%\\
+0 & 0 & 33.5\% & 48.8\% & 17.7\%\\
+0 & 0 & 0 & 57.9\% & 42.1\%\\
+0 & 0 & 0 & 0 & 100\%
+\end{pmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You'll notice each row adds up to 100% exactly how our first transition
+ matrix had fractions that added up to 1.
+\end_layout
+
+\begin_layout Section
+What do our results tell us?
+\end_layout
+
+\begin_layout Standard
+Our most important number is in cell 
+\begin_inset Formula $(1,5)$
+\end_inset
+
+.
+ This tells us the chance of a smart player getting a Yahtzee over three
+ turns is roughly 4.6%.
+ Much higher than over one round (0.08%).
+ Below are some more conclusions we can draw.
+\end_layout
+
+\begin_layout Itemize
+If the player was allowed five rolls their chance of getting a Yahtzee would
+ rise from 4.6% to 17%.
+\end_layout
+
+\begin_layout Itemize
+After 10 rolls your chance of obtaining a Yahtzee is higher than 50%.
+\end_layout
+
+\begin_layout Itemize
+Your chance of getting a four-of-a-kind over three rolls is 24.5%.
+\end_layout
+
+\begin_layout Itemize
+Your chance of getting a three-of-a-kind is 45.2%.
+\end_layout
+
+\begin_layout Itemize
+You're more likely to get a three-of-a-kind (45.2%) than a pair (25.6%).
+ This makes sense because you would have to be pretty unlucky to never get
+ more than a pair from rolling three times.
+\end_layout
+
+\begin_layout Section
+Rolls-to-probability table
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="26" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x$
+\end_inset
+
+ rolls
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Three-of-a-kind
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Four-of-a-kind
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yahtzee
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+69.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.08%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+45.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.3%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25.6%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+45.2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.1%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+33.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+41.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17.1%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+44.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24.9%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+44.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+33.1%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+42.8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+41.0%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+39.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+48.6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+36.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+55.6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+32.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+61.8%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28.6%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+67.4%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.07%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24.9%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+72.2%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.04%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+76.5%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.02%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+80.1%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15.8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+83.2%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.007%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+85.9%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.004%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+88.2%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.002%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9.6%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+90.0%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.001%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+91.6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.001%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6.8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+93.0%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.7%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+94.2%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.08%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95.1%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.05%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4.0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95.9%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.04%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.4%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+96.6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-5"
+
+\end_inset
+
+Beast, Altered, and amd.
+ “How to Cube a Matrix, Specifically a Transition (Probability) Matrix.”
+ Mathematics Stack Exchange, 4 Sept.
+ 2019, https://math.stackexchange.com/questions/3343932/how-to-cube-a-matrix-speci
+fically-a-transition-probability-matrix.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-9"
+
+\end_inset
+
+Berry, Nick.
+ 
+\emph on
+Data Genetics
+\emph default
+, https://datagenetics.com/index.html
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-6"
+
+\end_inset
+
+Moehring, Brian, and CyanCoding.
+ “Binomial Probability Doesn't Give the Correct Number?” Mathematics Stack
+ Exchange, 27 Dec.
+ 2021, https://math.stackexchange.com/a/4343342/1008984.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-8"
+
+\end_inset
+
+NagwaEd.
+ “Squaring and Cubing a Matrix.” Nagwa, https://www.nagwa.com/en/videos/68915820138
+0/.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-7"
+
+\end_inset
+
+Pilling, Matthew, and CyanCoding.
+ “How to Predict the Likelihood of Multiple Future Occurrences Based on
+ Probability.” Mathematics Stack Exchange, 26 Dec.
+ 2021, https://math.stackexchange.com/a/4342534/1008984.
+ 
+\end_layout
+
+\end_body
+\end_document
