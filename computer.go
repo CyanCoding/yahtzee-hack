@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -31,19 +32,32 @@ func calculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
 	possibility1 := "12345"
 	possibility2 := "23456"
 
+	keepDiceInt := 0
 	for i := 0; i < 5; i++ {
+		oneExecuted := false // Used to determine if either option occurs
 		character := strconv.Itoa(dice[i])
 		if strings.Contains(possibility1, character) {
 			possibility1 = strings.Replace(possibility1, character, "", -1)
+			oneExecuted = true
 		}
 		if strings.Contains(possibility2, character) {
 			possibility2 = strings.Replace(possibility2, character, "", -1)
+			oneExecuted = true
+		}
+
+		if oneExecuted {
+			// They already have a full straight because it's trying to add more than
+			// 4 to keep.
+			if keepDiceInt == 4 {
+				return
+			}
+			keepDice[keepDiceInt] = dice[i]
+			keepDiceInt++
 		}
 	}
+	fmt.Println(keepDice)
 
-	if len(possibility2) > len(possibility1) {
-		
-	}
+	return
 }
 
 // InterpretFinish returns the new board and new dice
