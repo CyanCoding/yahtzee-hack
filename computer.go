@@ -149,16 +149,13 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 		}
 	}
 
-	//crossOut := false
-	//crossOutOption := ""
+	crossOut := false
+	crossOutOption := ""
 	fillInOption := ""
 	keepRolling := false
 	var keepDice [4]int
 
-	if keepRolling && fillInOption == "" {
-		// I did this so I can keep the variables lol
-	}
-
+	// This is for normal results - not crossing out
 	if line == "Take the Yahtzee and stop rolling." {
 		fillInOption = "yahtzee"
 	} else if line == "Take your 1's and get the bonus 35 points." {
@@ -235,34 +232,45 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 		keepRolling = true
 	} else if line == "Use your chance." {
 		fillInOption = "chance"
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
+	}
+
+	// This dictates if we need to cross something out
+	if line == "Cross out your Yahtzee." {
+		crossOut = true
+		crossOutOption = "yahtzee"
+	} else if line == "Cross out your four-of-a-kind." {
+		crossOut = true
+		crossOutOption = "four-of-a-kind"
+	} else if line == "Cross out your three-of-a-kind." {
+		crossOut = true
+		crossOutOption = "three-of-a-kind"
+	} else if line == "Cross out your 1's." {
+		crossOut = true
+		crossOutOption = "1's"
+	} else if line == "Cross out your 2's." {
+		crossOut = true
+		crossOutOption = "2's"
+	} else if line == "Cross out your 3's." {
+		crossOut = true
+		crossOutOption = "3's"
+	} else if line == "Cross out your 4's." {
+		crossOut = true
+		crossOutOption = "4's"
+	} else if line == "Cross out your 5's." {
+		crossOut = true
+		crossOutOption = "5's"
+	} else if line == "Cross out your 6's." {
+		crossOut = true
+		crossOutOption = "6's"
+	} else if line == "Cross out your full house." {
+		crossOut = true
+		crossOutOption = "full house"
+	} else if line == "Cross out your large straight." {
+		crossOut = true
+		crossOutOption = "large straight"
+	} else if line == "Cross out your small straight." {
+		crossOut = true
+		crossOutOption = "small straight"
 	}
 
 	return board, dice
