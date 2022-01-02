@@ -8,11 +8,18 @@ import (
 	"strings"
 )
 
-func InputDice(board [13]ScoreItem) (dice [5]int) {
+// InputDice asks the user for their dice.
+// If computer == 3 (so you plug in the input from the main option) it runs automatically.
+func InputDice(computer int, keep []int, oldDice [5]int) (dice [5]int) {
 	var input string
 	for len(input) != 5 || input == "0" {
 		fmt.Print("Please enter your dice ('34531') or '0' to finish > ")
-		_, _ = fmt.Scanln(&input)
+		if computer != 3 {
+			_, _ = fmt.Scanln(&input)
+		} else {
+			dice = FillInOtherDice(oldDice, keep)
+			return dice
+		}
 
 		if input == "0" { // Quit
 			dice[0] = 0
