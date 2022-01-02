@@ -291,49 +291,49 @@ func CalculateTargets(board [13]ScoreItem) {
 	// Three-of-a-kind
 	if turnsLeft > 2 && turnsLeft < 5 && board[6].points == 0 {
 		goals += "You'll need a three-of-a-kind soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a three-of-a-kind.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a three-of-a-kind.\n")
 	} else if (turnsLeft <= 2 ||
 		(board[9].points != 0 && board[7].points != 0 && board[8].points != 0 && board[10].points != 0)) &&
 		board[6].points == 0 {
 		goals += "Target a three-of-a-kind soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a three-of-a-kind.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a three-of-a-kind.\n")
 	}
 
 	if board[10].points == 0 { // Large straight
 		goals += "Target a large straight soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a large straight.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a large straight.\n")
 	}
 	if board[8].points == 0 { // Full house
 		goals += "Target a full house soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a full house.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a full house.\n")
 	}
 	if board[7].points == 0 && (turnsLeft < 6 || (board[8].points != 0 && board[10].points != 0)) { // Four-of-a-kind
 		goals += "Target a four-of-a-kind soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a four-of-a-kind.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a four-of-a-kind.\n")
 	}
 
 	// Small straight
 	if turnsLeft > 3 && turnsLeft < 6 && board[9].points == 0 {
 		goals += "You'll need a small straight soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a small straight.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a small straight.\n")
 	} else if (turnsLeft <= 3 || (board[7].points != 0 && board[8].points != 0 && board[10].points != 0)) &&
 		board[9].points == 0 {
 		goals += "You should target a small straight soon.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a small straight.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a small straight.\n")
 	}
 
 	if board[11].points > 0 {
 		goals += "Get a Yahtzee if you can. It'll be worth more.\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a Yahtzee!\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a Yahtzee!\n")
 	}
 	if board[12].points == 0 && turnsLeft < 7 {
 		goals += "You still have your chance left as backup!\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Re-roll dice below 3 or 4.\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Re-roll low numbers to get a good chance.\n")
 	}
 
 	if goals == "" {
 		goals += "Try for a Yahtzee!\n"
-		EmergencyAdvice = append(EmergencyAdvice, "Roll for a Yahtzee!\n")
+		EmergencyAdvice = append(EmergencyAdvice, "Go for a Yahtzee!\n")
 	}
 
 	fmt.Print(goals)
