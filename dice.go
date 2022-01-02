@@ -10,7 +10,7 @@ import (
 
 // InputDice asks the user for their dice.
 // If computer == 3 (so you plug in the input from the main option) it runs automatically.
-func InputDice(computer int, keep []int, oldDice [5]int) (dice [5]int) {
+func InputDice(computer int, keep [4]int, oldDice [5]int) (dice [5]int) {
 	var input string
 	for len(input) != 5 || input == "0" {
 		fmt.Print("Please enter your dice ('34531') or '0' to finish > ")
