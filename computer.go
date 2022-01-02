@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -103,8 +102,6 @@ func calculateRemainderSmallStraight(dice [5]int) (keepDice [4]int) {
 	for i := 0; i < len(original); i++ {
 		keepDice[i] = int(original[i] - '0')
 	}
-	fmt.Println(usingString, original)
-	fmt.Println(keepDice)
 
 	return
 }
@@ -127,8 +124,6 @@ func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
 			keepDiceInt++
 		}
 	}
-
-	fmt.Println(keepDice)
 
 	return
 }
