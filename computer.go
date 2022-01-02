@@ -202,7 +202,7 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 	} else if line == "Keep your 6's and keep rolling." || line == "Roll for 6's" {
 		keepDice[0] = 6
 		keepRolling = true
-	} else if line == "Keep your 5's and keep rolling." || line == "Roll for 56's" {
+	} else if line == "Keep your 5's and keep rolling." || line == "Roll for 5's" {
 		keepDice[0] = 5
 		keepRolling = true
 	} else if line == "Keep your 4's and keep rolling." || line == "Roll for 4's" {
