@@ -77,8 +77,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[1] > 0 && upperPoints+m[1] >= 61 && board[0].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 1's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 1's.\n"
 				ActionString = "roll-non-1"
 				used1 = true
 			} else if upperPoints+m[1] >= 63 {
@@ -91,8 +90,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[2] > 0 && upperPoints+(m[2]*2) >= 59 && board[1].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 2's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 2's.\n"
 				used2 = true
 				ActionString = "roll-non-2"
 			} else if upperPoints+(m[2]*2) >= 63 {
@@ -104,8 +102,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[3] > 0 && upperPoints+(m[3]*3) >= 57 && board[2].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 3's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 3's.\n"
 				used3 = true
 				ActionString = "roll-non-3"
 			} else if upperPoints+(m[3]*3) >= 63 {
@@ -117,8 +114,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[4] > 0 && upperPoints+(m[4]*4) >= 55 && board[3].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 4's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 4's.\n"
 				used4 = true
 				ActionString = "roll-non-4"
 			} else if upperPoints+(m[4]*4) >= 63 {
@@ -130,8 +126,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[5] > 0 && upperPoints+(m[5]*5) >= 63 && board[4].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 5's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 5's.\n"
 				used5 = true
 				ActionString = "roll-non-5"
 			} else if upperPoints+(m[5]*5) >= 63 {
@@ -143,8 +138,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		if m[6] > 0 && upperPoints+(m[6]*6) >= 63 && board[5].points == 0 {
 			adviceNum++
 			if rollsLeft != 0 {
-				advice += strconv.Itoa(adviceNum) + ". You're " +
-					strconv.Itoa(63-upperPoints) + " points from the bonus. Get more 6's.\n"
+				advice += strconv.Itoa(adviceNum) + ". Roll for 6's.\n"
 				used6 = true
 				ActionString = "roll-non-6"
 			} else if upperPoints+(m[6]*6) >= 63 {
