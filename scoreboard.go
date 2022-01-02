@@ -148,7 +148,7 @@ func FindPossibleOptions(board [13]ScoreItem,
 			input = scanner.Text()
 		} else {
 			input = fillInOption
-			fmt.Print(fillInOption)
+			fmt.Println(fillInOption)
 		}
 
 		if strings.ToLower(input) == "cross out" || crossOut == true {
@@ -220,7 +220,7 @@ func CrossOut(board [13]ScoreItem, crossOutOption string) [13]ScoreItem {
 			input = scanner.Text()
 		} else {
 			input = crossOutOption
-			fmt.Print(crossOutOption)
+			fmt.Println(crossOutOption)
 		}
 
 		for i := 0; i < len(newBoard); i++ {
