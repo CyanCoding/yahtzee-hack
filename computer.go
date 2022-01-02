@@ -163,7 +163,7 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 	} else if line == "Take your 6's and get the bonus 35 points." {
 		fillInOption = "6's"
 	} else if line == "Take the large straight and stop rolling." {
-		fillInOption = "straight"
+		fillInOption = "large straight"
 	} else if line == "Take the Full house and stop rolling." {
 		fillInOption = "full house"
 	} else if line == "Go for a four-of-a-kind." {
