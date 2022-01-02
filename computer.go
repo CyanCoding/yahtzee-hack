@@ -180,17 +180,17 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 		keepRolling = true
 	} else if line == "Take the small straight." {
 		fillInOption = "small straight"
-	} else if line == "Take your 1's." {
+	} else if line == "Take your 1's." || line == "Take your 1's and get the bonus 35 points." {
 		fillInOption = "1's"
-	} else if line == "Take your 2's." {
+	} else if line == "Take your 2's." || line == "Take your 2's and get the bonus 35 points." {
 		fillInOption = "2's"
-	} else if line == "Take your 3's." {
+	} else if line == "Take your 3's." || line == "Take your 3's and get the bonus 35 points." {
 		fillInOption = "3's"
-	} else if line == "Take your 4's." {
+	} else if line == "Take your 4's." || line == "Take your 4's and get the bonus 35 points." {
 		fillInOption = "4's"
-	} else if line == "Take your 5's." {
+	} else if line == "Take your 5's." || line == "Take your 5's and get the bonus 35 points." {
 		fillInOption = "5's"
-	} else if line == "Take your 6's." {
+	} else if line == "Take your 6's." || line == "Take your 6's and get the bonus 35 points." {
 		fillInOption = "6's"
 	} else if line == "Take the four-of-a-kind." {
 		fillInOption = "four-of-a-kind"
