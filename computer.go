@@ -13,7 +13,7 @@ func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
 	for i := 0; i < len(dice); i++ {
 		erase := true
 		for j := 0; j < len(keep); j++ {
-			if dice[i] == keep[j] {
+			if dice[i] == keep[j] && dice[i] != 0 {
 				erase = false
 			}
 		}
