@@ -14,8 +14,6 @@ var YahtzeeMultiplied int = 50
 // but we want to reinforce that the user needs to achieve their goal
 var EmergencyAdvice []string
 
-var ActionString string
-
 func main() {
 	board := GenerateBoard()
 	score := 0
