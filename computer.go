@@ -132,7 +132,8 @@ func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
 func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bool,
 	crossOutOption string,
 	fillInOption string,
-	keepRolling bool) {
+	keepRolling bool,
+	keepDice [4]int) {
 	// Example: "1. Cross out your Yahtzee."
 	line = line[3:]
 
@@ -145,8 +146,6 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 			largestValue = value
 		}
 	}
-
-	var keepDice [4]int
 
 	// This is for normal results - not crossing out
 	if line == "Take the Yahtzee and stop rolling." {
