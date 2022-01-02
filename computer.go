@@ -27,7 +27,8 @@ func fillInOtherDice(dice [5]int, keep []int) [5]int {
 	return dice
 }
 
-// This tells us what numbers we need in order to get a large straight
+// calculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
+// It returns keepDice, which is an array of numbers we don't need to re-roll.
 func calculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
 	possibility1 := "12345"
 	possibility2 := "23456"
@@ -55,6 +56,54 @@ func calculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
 			keepDiceInt++
 		}
 	}
+
+	return
+}
+
+// calculateRemainderSmallStraight tells us what numbers we need in order to get a small straight.
+// It returns the dice we don't need to re-roll.
+func calculateRemainderSmallStraight(dice [5]int) (keepDice [4]int) {
+	original1 := "1234"
+	original2 := "2345"
+	original3 := "3456"
+	possibility1 := "1234"
+	possibility2 := "2345"
+	possibility3 := "3456"
+
+	for i := 0; i < 5; i++ {
+		character := strconv.Itoa(dice[i])
+		if strings.Contains(possibility1, character) {
+			possibility1 = strings.Replace(possibility1, character, "", -1)
+		}
+		if strings.Contains(possibility2, character) {
+			possibility2 = strings.Replace(possibility2, character, "", -1)
+		}
+		if strings.Contains(possibility3, character) {
+			possibility3 = strings.Replace(possibility3, character, "", -1)
+		}
+	}
+
+	usingString := possibility1
+	original := original1
+
+	if len(possibility2) < len(possibility1) {
+		usingString = possibility2
+		original = original2
+	} else if len(possibility3) < len(possibility1) {
+		usingString = possibility3
+		original = original3
+	}
+
+	for i := 0; i < len(usingString); i++ {
+		if strings.Contains(original, string(usingString[i])) {
+			original = strings.Replace(original, string(usingString[i]), "", -1)
+		}
+	}
+
+	for i := 0; i < len(original); i++ {
+		keepDice[i] = int(original[i] - '0')
+	}
+	fmt.Println(usingString, original)
 	fmt.Println(keepDice)
 
 	return
@@ -110,7 +159,8 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 		keepDice[0] = largestKey
 		keepRolling = true
 	} else if line == "Go for a large straight." {
-		fillInOption = ""
+		keepDice = calculateRemainderLargeStraight(dice)
+		keepRolling = true
 	} else if line == "" {
 		fillInOption = ""
 	} else if line == "" {
