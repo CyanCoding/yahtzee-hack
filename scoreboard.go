@@ -38,7 +38,11 @@ func GenerateBoard() [13]ScoreItem {
 
 // FindPossibleOptions Finds the playable options from the given dice and scoreboard and prompts the user to select one.
 // Returns a new board
-func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
+func FindPossibleOptions(board [13]ScoreItem,
+	dice [5]int,
+	fillInOption string,
+	crossOut bool,
+	crossOutOption string) [13]ScoreItem {
 	points := 0
 	for i := 0; i < 5; i++ {
 		points += dice[i]
@@ -123,7 +127,7 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 		fmt.Println(chalk.RedLight())
 		fmt.Printf("You have to cross out")
 		fmt.Println(chalk.Reset())
-		newBoard = CrossOut(newBoard)
+		newBoard = CrossOut(newBoard, crossOutOption)
 		return newBoard
 	}
 
@@ -136,13 +140,18 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 
 	for badName {
 		fmt.Print("Name > ")
-		if !scanner.Scan() {
-			continue
+		input := ""
+		if fillInOption == "" {
+			if !scanner.Scan() {
+				continue
+			}
+			input = scanner.Text()
+		} else {
+			input = fillInOption
 		}
-		input := scanner.Text()
 
-		if strings.ToLower(input) == "cross out" {
-			newBoard = CrossOut(newBoard)
+		if strings.ToLower(input) == "cross out" || crossOut == true {
+			newBoard = CrossOut(newBoard, crossOutOption)
 			break
 		}
 
@@ -177,7 +186,7 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 	return newBoard
 }
 
-func CrossOut(board [13]ScoreItem) [13]ScoreItem {
+func CrossOut(board [13]ScoreItem, crossOutOption string) [13]ScoreItem {
 	newBoard := board
 	fmt.Print("\033[H\033[2J")
 	fmt.Print("Please type in the name to cross it out.")
@@ -201,10 +210,16 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	scanner := bufio.NewScanner(os.Stdin)
 	for badName {
 		fmt.Print("Name > ")
-		if !scanner.Scan() {
-			continue
+
+		input := ""
+		if crossOutOption == "" {
+			if !scanner.Scan() {
+				continue
+			}
+			input = scanner.Text()
+		} else {
+			input = crossOutOption
 		}
-		input := scanner.Text()
 
 		for i := 0; i < len(newBoard); i++ {
 			if strings.ToLower(newBoard[i].name) == strings.ToLower(input) {
