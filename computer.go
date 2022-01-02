@@ -25,9 +25,9 @@ func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
 	return dice
 }
 
-// CalculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
+// calculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
 // It returns keepDice, which is an array of numbers we don't need to re-roll.
-func CalculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
+func calculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
 	possibility1 := "12345"
 	possibility2 := "23456"
 
@@ -172,7 +172,7 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 		keepDice[0] = largestKey
 		keepRolling = true
 	} else if line == "Go for a large straight." {
-		keepDice = CalculateRemainderLargeStraight(dice)
+		keepDice = calculateRemainderLargeStraight(dice)
 		keepRolling = true
 	} else if line == "Go for a three-of-a-kind." {
 		keepDice[0] = largestKey
