@@ -141,11 +141,13 @@ func FindPossibleOptions(board [13]ScoreItem,
 	for badName {
 		fmt.Print("Name > ")
 		input := ""
-		if fillInOption == "" {
+		if fillInOption == "" && crossOut == false {
 			if !scanner.Scan() {
 				continue
 			}
 			input = scanner.Text()
+		} else if crossOut == true {
+			fmt.Println("cross out")
 		} else {
 			input = fillInOption
 			fmt.Println(fillInOption)
