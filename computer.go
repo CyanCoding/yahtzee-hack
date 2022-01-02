@@ -135,7 +135,6 @@ func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
 
 // InterpretFinish returns the new board and new dice
 func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreItem, [5]int) {
-	// TODO: We also need to create actions for the personalized goals that are in scoreboard.go
 	// Example: "1. Cross out your Yahtzee."
 	line = line[3:]
 
@@ -183,6 +182,9 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 	} else if line == "Go for a large straight." {
 		keepDice = calculateRemainderLargeStraight(dice)
 		keepRolling = true
+	} else if line == "Go for a three-of-a-kind." {
+		keepDice[0] = largestKey
+		keepRolling = true
 	} else if line == "Take the small straight." {
 		fillInOption = "small straight"
 	} else if line == "Take your 1's." {
@@ -204,22 +206,22 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 	} else if line == "Go for a full house." {
 		keepDice = calculateRemainderFullHouse(m)
 		keepRolling = true
-	} else if line == "Keep your 6's and keep rolling." {
+	} else if line == "Keep your 6's and keep rolling." || line == "Roll for 6's" {
 		keepDice[0] = 6
 		keepRolling = true
-	} else if line == "Keep your 5's and keep rolling." {
+	} else if line == "Keep your 5's and keep rolling." || line == "Roll for 56's" {
 		keepDice[0] = 5
 		keepRolling = true
-	} else if line == "Keep your 4's and keep rolling." {
+	} else if line == "Keep your 4's and keep rolling." || line == "Roll for 4's" {
 		keepDice[0] = 4
 		keepRolling = true
-	} else if line == "Keep your 3's and keep rolling." {
+	} else if line == "Keep your 3's and keep rolling." || line == "Roll for 3's" {
 		keepDice[0] = 3
 		keepRolling = true
-	} else if line == "Keep your 2's and keep rolling." {
+	} else if line == "Keep your 2's and keep rolling." || line == "Roll for 2's" {
 		keepDice[0] = 2
 		keepRolling = true
-	} else if line == "Keep your 1's and keep rolling." {
+	} else if line == "Keep your 1's and keep rolling." || line == "Roll for 1's" {
 		keepDice[0] = 1
 		keepRolling = true
 	} else if line == "Go for a small straight." {
