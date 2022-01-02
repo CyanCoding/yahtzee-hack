@@ -188,6 +188,12 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 		keepRolling = true
 	} else if line == "Take the small straight." {
 		fillInOption = "small straight"
+	} else if line == "Take your 1's." {
+		fillInOption = "1's"
+	} else if line == "Take your 2's." {
+		fillInOption = "2's"
+	} else if line == "Take your 3's." {
+		fillInOption = "3's"
 	} else if line == "Take your 4's." {
 		fillInOption = "4's"
 	} else if line == "Take your 5's." {
@@ -199,7 +205,50 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 	} else if line == "Take the three-of-a-kind." {
 		fillInOption = "three-of-a-kind"
 	} else if line == "Go for a full house." {
-
+		keepDice = calculateRemainderFullHouse(m)
+		keepRolling = true
+	} else if line == "Keep your 6's and keep rolling." {
+		keepDice[0] = 6
+		keepRolling = true
+	} else if line == "Keep your 5's and keep rolling." {
+		keepDice[0] = 5
+		keepRolling = true
+	} else if line == "Keep your 4's and keep rolling." {
+		keepDice[0] = 4
+		keepRolling = true
+	} else if line == "Keep your 3's and keep rolling." {
+		keepDice[0] = 3
+		keepRolling = true
+	} else if line == "Keep your 2's and keep rolling." {
+		keepDice[0] = 2
+		keepRolling = true
+	} else if line == "Keep your 1's and keep rolling." {
+		keepDice[0] = 1
+		keepRolling = true
+	} else if line == "Go for a small straight." {
+		keepDice = calculateRemainderSmallStraight(dice)
+		keepRolling = true
+	} else if line == "Re-roll low numbers to get a good chance." {
+		keepDice[0] = 4
+		keepDice[1] = 5
+		keepDice[2] = 6
+		keepRolling = true
+	} else if line == "Use your chance." {
+		fillInOption = "chance"
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
+	} else if line == "" {
+		fillInOption = ""
 	} else if line == "" {
 		fillInOption = ""
 	} else if line == "" {
