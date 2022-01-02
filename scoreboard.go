@@ -118,12 +118,22 @@ func FindPossibleOptions(board [13]ScoreItem, dice [5]int) [13]ScoreItem {
 		}
 	}
 
+	// They have to cross out
+	if len(possibilities) == 0 {
+		fmt.Println(chalk.RedLight())
+		fmt.Printf("You have to cross out")
+		fmt.Println(chalk.Reset())
+		newBoard = CrossOut(newBoard)
+		return newBoard
+	}
+
 	fmt.Println(chalk.RedLight())
 	fmt.Printf("Cross out")
 	fmt.Println(chalk.Reset())
 
 	badName := true
 	scanner := bufio.NewScanner(os.Stdin)
+
 	for badName {
 		fmt.Print("Name > ")
 		if !scanner.Scan() {
@@ -217,6 +227,119 @@ func CrossOut(board [13]ScoreItem) [13]ScoreItem {
 	return newBoard
 }
 
+func CalculateTargets(board [13]ScoreItem) {
+	upperPoints := CalculateUpperScore(board)
+	turnsLeft := ItemsNeededLeft(board)
+
+	fmt.Println(chalk.CyanLight())
+	fmt.Print("Personalized goals:")
+	fmt.Println(chalk.YellowLight())
+
+	goals := ""
+	upperPossibleGoals := ""
+	upperBackupGoals := ""
+
+	variation := 0
+
+	if board[0].points == 0 { // 1's
+		variation += 3
+		upperPossibleGoals += "You should use your 1's soon. Leave them as backup.\n"
+		upperBackupGoals += "You should use your 1's soon. Leave them as backup.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 1's.\n")
+	}
+	if board[1].points == 0 { // 2's
+		variation += 6
+		upperPossibleGoals += "You should use your 2's soon. Leave them as backup.\n"
+		upperBackupGoals += "You should use your 2's soon. Leave them as backup.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 2's.\n")
+	}
+	if board[2].points == 0 { // 3's
+		variation += 9
+		upperPossibleGoals += "You're close to the bonus. Try and get a lot of 3's.\n"
+		upperBackupGoals += "Try for a bunch of 3's soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 3's.\n")
+	}
+	if board[3].points == 0 { // 4's
+		variation += 12
+		upperPossibleGoals += "You're close to the bonus. Try and get a lot of 4's.\n"
+		upperBackupGoals += "Try for a bunch of 4's soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 4's.\n")
+	}
+	if board[4].points == 0 { // 5's
+		variation += 15
+		upperPossibleGoals += "You're close to the bonus. Try and get a lot of 5's.\n"
+		upperBackupGoals += "Try for a bunch of 5's soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 5's.\n")
+	}
+	if board[5].points == 0 { // 6's
+		variation += 18
+		upperPossibleGoals += "You're close to the bonus. Try and get a lot of 6's.\n"
+		upperBackupGoals += "Try for a bunch of 6's soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for 6's.\n")
+	}
+
+	if 63-variation <= upperPoints && upperPoints < 63 && turnsLeft < 8 {
+		goals += upperPossibleGoals
+	} else if turnsLeft < 6 || (board[6].points != 0 &&
+		board[9].points != 0 &&
+		board[7].points != 0 &&
+		board[8].points != 0 &&
+		board[10].points != 0) {
+		goals += upperBackupGoals
+	}
+
+	// Three-of-a-kind
+	if turnsLeft > 2 && turnsLeft < 5 && board[6].points == 0 {
+		goals += "You'll need a three-of-a-kind soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a three-of-a-kind.\n")
+	} else if (turnsLeft <= 2 ||
+		(board[9].points != 0 && board[7].points != 0 && board[8].points != 0 && board[10].points != 0)) &&
+		board[6].points == 0 {
+		goals += "Target a three-of-a-kind soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a three-of-a-kind.\n")
+	}
+
+	if board[10].points == 0 { // Large straight
+		goals += "Target a large straight soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a large straight.\n")
+	}
+	if board[8].points == 0 { // Full house
+		goals += "Target a full house soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a full house.\n")
+	}
+	if board[7].points == 0 && (turnsLeft < 6 || (board[8].points != 0 && board[10].points != 0)) { // Four-of-a-kind
+		goals += "Target a four-of-a-kind soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a four-of-a-kind.\n")
+	}
+
+	// Small straight
+	if turnsLeft > 3 && turnsLeft < 6 && board[9].points == 0 {
+		goals += "You'll need a small straight soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a small straight.\n")
+	} else if (turnsLeft <= 3 || (board[7].points != 0 && board[8].points != 0 && board[10].points != 0)) &&
+		board[9].points == 0 {
+		goals += "You should target a small straight soon.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a small straight.\n")
+	}
+
+	if board[11].points > 0 {
+		goals += "Get a Yahtzee if you can. It'll be worth more.\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a Yahtzee!\n")
+	}
+	if board[12].points == 0 && turnsLeft < 7 {
+		goals += "You still have your chance left as backup!\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Re-roll dice below 3 or 4.\n")
+	}
+
+	if goals == "" {
+		goals += "Try for a Yahtzee!\n"
+		EmergencyAdvice = append(EmergencyAdvice, "Roll for a Yahtzee!\n")
+	}
+
+	fmt.Print(goals)
+	fmt.Println(chalk.Reset())
+}
+
 // CalculateTotalScore takes the board and returns the point values. Ignores -1 (crossed out) values
 func CalculateTotalScore(board [13]ScoreItem) (score int) {
 	for i := 0; i < len(board); i++ {
@@ -238,7 +361,6 @@ func CalculateUpperScore(board [13]ScoreItem) int {
 }
 
 func DisplayScoreBoard(board [13]ScoreItem) {
-	fmt.Print("\033[H\033[2J")
 	fmt.Println("==== SCORECARD ====")
 	fmt.Println("-------------------")
 	fmt.Println("|  Upper Section  |")
