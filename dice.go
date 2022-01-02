@@ -18,6 +18,7 @@ func InputDice(computer int, keep [4]int, oldDice [5]int) (dice [5]int) {
 			_, _ = fmt.Scanln(&input)
 		} else {
 			dice = FillInOtherDice(oldDice, keep)
+			fmt.Print(dice[0], dice[1], dice[2], dice[3], dice[4])
 			return dice
 		}
 
