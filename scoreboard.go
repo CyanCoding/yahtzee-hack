@@ -6,6 +6,7 @@ import (
 	"github.com/golang-demos/chalk"
 	"os"
 	"strings"
+	"time"
 )
 
 // ScoreItem holds data on a scoreboard item's name, current point value, and ID
@@ -183,6 +184,7 @@ func FindPossibleOptions(board [13]ScoreItem,
 			fmt.Print("Invalid name!")
 			fmt.Println(chalk.Reset())
 			fmt.Println()
+			time.Sleep(2 * time.Second)
 		}
 	}
 
@@ -239,6 +241,7 @@ func CrossOut(board [13]ScoreItem, crossOutOption string) [13]ScoreItem {
 			fmt.Print("Invalid name!")
 			fmt.Println(chalk.Reset())
 			fmt.Println()
+			time.Sleep(2 * time.Second)
 		}
 	}
 
