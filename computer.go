@@ -9,7 +9,7 @@ import (
 
 // fillInOtherDice randomly rolls the dice you don't want to keep.
 // keep[] has the numbers you do want to keep.
-func fillInOtherDice(dice [5]int, keep []int) [5]int {
+func FillInOtherDice(dice [5]int, keep []int) [5]int {
 	for i := 0; i < len(dice); i++ {
 		erase := true
 		for j := 0; j < len(keep); j++ {
