@@ -10,15 +10,14 @@ import (
 // FillInOtherDice randomly rolls the dice you don't want to keep.
 // keep[] has the numbers you do want to keep.
 func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
+	// We can do this because we know we already have everything in [4]keep
+	dice[0] = keep[0]
+	dice[1] = keep[1]
+	dice[2] = keep[2]
+	dice[3] = keep[3]
+
 	for i := 0; i < len(dice); i++ {
-		erase := true
-		for j := 0; j < len(keep); j++ {
-			if dice[i] == keep[j] && dice[i] != 0 {
-				erase = false
-			}
-		}
-		// There were no matches in dice[i] with keep
-		if erase {
+		if dice[i] == 0 {
 			rand.Seed(time.Now().UnixNano())
 			dice[i] = rand.Intn(6) + 1 // 1 - 6
 		}
@@ -26,9 +25,9 @@ func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
 	return dice
 }
 
-// calculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
+// CalculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
 // It returns keepDice, which is an array of numbers we don't need to re-roll.
-func calculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
+func CalculateRemainderLargeStraight(dice [5]int) (keepDice [4]int) {
 	possibility1 := "12345"
 	possibility2 := "23456"
 
@@ -173,7 +172,7 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 		keepDice[0] = largestKey
 		keepRolling = true
 	} else if line == "Go for a large straight." {
-		keepDice = calculateRemainderLargeStraight(dice)
+		keepDice = CalculateRemainderLargeStraight(dice)
 		keepRolling = true
 	} else if line == "Go for a three-of-a-kind." {
 		keepDice[0] = largestKey
