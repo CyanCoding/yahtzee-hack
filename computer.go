@@ -109,6 +109,30 @@ func calculateRemainderSmallStraight(dice [5]int) (keepDice [4]int) {
 	return
 }
 
+// calculateRemainderFullHouse tells us what numbers we need in order to get a full house.
+// It returns the dice we don't need to re-roll
+func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
+	haveThree := 0
+	haveTwo := 0
+	keepDiceInt := 0
+
+	for key, value := range m {
+		if value == 2 {
+			keepDice[keepDiceInt] = key
+			keepDiceInt++
+			haveTwo++
+		} else if value == 3 {
+			haveThree++
+			keepDice[keepDiceInt] = key
+			keepDiceInt++
+		}
+	}
+
+	fmt.Println(keepDice)
+
+	return
+}
+
 // InterpretFinish returns the new board and new dice
 func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreItem, [5]int) {
 	// TODO: We also need to create actions for the personalized goals that are in scoreboard.go
