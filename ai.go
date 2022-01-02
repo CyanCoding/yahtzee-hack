@@ -297,10 +297,10 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 	// Always go for chance and small numbers as a last resort
 	if board[12].points == 0 && points > 23 {
 		adviceNum++
-		advice += strconv.Itoa(adviceNum) + ". Use your chance (" + strconv.Itoa(points) + ").\n"
+		advice += strconv.Itoa(adviceNum) + ". Use your chance.\n"
 	} else if board[12].points == 0 && adviceNum <= 1 && ItemsNeededLeft(board) < 5 {
 		adviceNum++
-		advice += strconv.Itoa(adviceNum) + ". Use your chance (" + strconv.Itoa(points) + ").\n"
+		advice += strconv.Itoa(adviceNum) + ". Use your chance.\n"
 	}
 	if board[0].points == 0 && m[1] != 0 && adviceNum <= 1 && !used1 && rollsLeft == 0 {
 		adviceNum++
