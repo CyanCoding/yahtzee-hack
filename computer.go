@@ -20,7 +20,7 @@ func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
 		// There were no matches in dice[i] with keep
 		if erase {
 			rand.Seed(time.Now().UnixNano())
-			dice[i] = rand.Intn(7) // 0 - 6
+			dice[i] = rand.Intn(6) + 1 // 1 - 6
 		}
 	}
 	return dice
