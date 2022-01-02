@@ -63,9 +63,14 @@ func main() {
 			EmergencyAdvice = nil // Clear the slice
 			CalculateTargets(board)
 
+			// These are used for the computer
+			keepRolling := true // This is used for the computer
+			fillInOption := ""
+			crossOutOption := ""
+			crossOut := false
 			for j := 0; j < 3; j++ { // Up to three rolls per turn
 				dice = InputDice(board)
-				if dice[0] != 0 {
+				if dice[0] != 0 && keepRolling {
 					lastRoll = dice
 
 					advice, firstLine := Advise(board, dice, 2-j)
@@ -75,12 +80,14 @@ func main() {
 					fmt.Print(advice)
 					fmt.Println(chalk.Reset())
 
-					board, dice = InterpretFinish(board, firstLine, dice)
+					if input == 3 {
+						crossOut, crossOutOption, fillInOption, keepRolling = InterpretFinish(board, firstLine, dice)
+					}
+
 				} else {
 					break
 				}
 			}
-			//fmt.Print("\033[H\033[2J")
 			// They rolled at least once
 			if lastRoll[0] != 0 {
 				fmt.Printf(
@@ -93,7 +100,7 @@ func main() {
 				)
 
 				// Ask the user which option they want to fill out on their board
-				board = FindPossibleOptions(board, lastRoll)
+				board = FindPossibleOptions(board, lastRoll, fillInOption, crossOut, crossOutOption)
 			} else {
 				// We do this because they didn't even roll once
 				i--
