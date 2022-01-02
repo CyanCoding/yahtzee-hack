@@ -68,8 +68,9 @@ func main() {
 			fillInOption := ""
 			crossOutOption := ""
 			crossOut := false
+			var keepDice [4]int
 			for j := 0; j < 3; j++ { // Up to three rolls per turn
-				dice = InputDice(board)
+				dice = InputDice(input, keepDice, lastRoll)
 				if dice[0] != 0 && keepRolling {
 					lastRoll = dice
 
@@ -81,7 +82,7 @@ func main() {
 					fmt.Println(chalk.Reset())
 
 					if input == 3 {
-						crossOut, crossOutOption, fillInOption, keepRolling = InterpretFinish(board, firstLine, dice)
+						crossOut, crossOutOption, fillInOption, keepRolling, keepDice = InterpretFinish(board, firstLine, dice)
 					}
 
 				} else {
