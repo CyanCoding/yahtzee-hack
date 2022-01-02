@@ -212,6 +212,7 @@ func DiceMap(dice [5]int) map[int]int {
 	return m
 }
 
+// CalculateLowerHand is a deprecated function that tells you your chances at each roll.
 func CalculateLowerHand(dice [5]int) {
 	var threeKind, fourKind, fullHouse, smallStraight, largeStraight, yahtzee float64
 
