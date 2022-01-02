@@ -111,6 +111,7 @@ func calculateRemainderSmallStraight(dice [5]int) (keepDice [4]int) {
 
 // InterpretFinish returns the new board and new dice
 func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreItem, [5]int) {
+	// TODO: We also need to create actions for the personalized goals that are in scoreboard.go
 	// Example: "1. Cross out your Yahtzee."
 	line = line[3:]
 
@@ -161,20 +162,20 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) ([13]ScoreIt
 	} else if line == "Go for a large straight." {
 		keepDice = calculateRemainderLargeStraight(dice)
 		keepRolling = true
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
-	} else if line == "" {
-		fillInOption = ""
+	} else if line == "Take the small straight." {
+		fillInOption = "small straight"
+	} else if line == "Take your 4's." {
+		fillInOption = "4's"
+	} else if line == "Take your 5's." {
+		fillInOption = "5's"
+	} else if line == "Take your 6's." {
+		fillInOption = "6's"
+	} else if line == "Take the four-of-a-kind." {
+		fillInOption = "four-of-a-kind"
+	} else if line == "Take the three-of-a-kind." {
+		fillInOption = "three-of-a-kind"
+	} else if line == "Go for a full house." {
+
 	} else if line == "" {
 		fillInOption = ""
 	} else if line == "" {
