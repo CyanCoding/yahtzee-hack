@@ -48,6 +48,8 @@ func main() {
 
 		if input != 3 {
 			_, _ = fmt.Scanln(&input)
+		} else {
+			fmt.Println("3")
 		}
 
 		if input == 1 { // View current scorecard
