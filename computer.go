@@ -114,11 +114,18 @@ func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
 
 	for key, value := range m {
 		if value == 2 {
+			// We add multiple ones because we want to keep multiple of the ones we already have
+			keepDice[keepDiceInt] = key
+			keepDiceInt++
 			keepDice[keepDiceInt] = key
 			keepDiceInt++
 			haveTwo++
 		} else if value == 3 {
 			haveThree++
+			keepDice[keepDiceInt] = key
+			keepDiceInt++
+			keepDice[keepDiceInt] = key
+			keepDiceInt++
 			keepDice[keepDiceInt] = key
 			keepDiceInt++
 		}
