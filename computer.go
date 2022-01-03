@@ -194,7 +194,7 @@ func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	} else if line == "Go for a four-of-a-kind." {
 		keepDice[0] = largestKey
 		keepRolling = true
-	} else if line == "Go for a Yahtzee." {
+	} else if line == "Go for a Yahtzee." || line == "Go for a Yahtzee!" {
 		keepDice[0] = largestKey
 		keepRolling = true
 	} else if line == "Go for a large straight." {
