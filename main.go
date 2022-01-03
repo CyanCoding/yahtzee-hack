@@ -70,7 +70,10 @@ func main() {
 			crossOut := false
 			var keepDice [4]int
 			for j := 0; j < 3; j++ { // Up to three rolls per turn
-				dice = InputDice(input, keepDice, lastRoll)
+				if keepRolling {
+					dice = InputDice(input, keepDice, lastRoll)
+				}
+
 				if dice[0] != 0 && keepRolling {
 					lastRoll = dice
 
