@@ -187,7 +187,11 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 			adviceNum++
 			advice += strconv.Itoa(adviceNum) + ". Take your 6's.\n"
 		}
-		if board[7].points == 0 && CalculateFourKind(m) == 1 && points > 15 {
+		if board[7].points == 0 && CalculateFourKind(m) == 1 && points > 20 && ItemsNeededLeft(board) < 6 {
+			adviceNum++
+			fourPicked = true
+			advice += strconv.Itoa(adviceNum) + ". Take the four-of-a-kind.\n"
+		} else if board[7].points == 0 && CalculateFourKind(m) == 1 && points > 15 {
 			adviceNum++
 			fourPicked = true
 			advice += strconv.Itoa(adviceNum) + ". Take the four-of-a-kind.\n"
