@@ -82,7 +82,7 @@ func main() {
 					fmt.Println(chalk.Reset())
 
 					if input == 3 {
-						crossOut, crossOutOption, fillInOption, keepRolling, keepDice = InterpretFinish(board, firstLine, dice)
+						crossOut, crossOutOption, fillInOption, keepRolling, keepDice = InterpretFinish(firstLine, dice)
 					}
 
 				} else {

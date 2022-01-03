@@ -135,7 +135,7 @@ func calculateRemainderFullHouse(m map[int]int) (keepDice [4]int) {
 }
 
 // InterpretFinish returns the new board and new dice
-func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bool,
+func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	crossOutOption string,
 	fillInOption string,
 	keepRolling bool,
