@@ -282,6 +282,16 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 		adviceNum++
 		advice += strconv.Itoa(adviceNum) + ". Use your chance.\n"
 	}
+	if board[2].points == 0 && m[3] >= 3 && rollsLeft == 0 {
+		adviceNum++
+		advice += strconv.Itoa(adviceNum) + ". Take your 3's.\n"
+		used3 = true
+	}
+	if board[1].points == 0 && m[2] >= 3 && rollsLeft == 0 {
+		adviceNum++
+		advice += strconv.Itoa(adviceNum) + ". Take your 2's.\n"
+		used2 = true
+	}
 	if board[0].points == 0 && m[1] != 0 && adviceNum <= 1 && !used1 && rollsLeft == 0 {
 		adviceNum++
 		advice += strconv.Itoa(adviceNum) + ". Take your 1's.\n"
