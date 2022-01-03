@@ -9,20 +9,38 @@ import (
 
 // FillInOtherDice randomly rolls the dice you don't want to keep.
 // keep[] has the numbers you do want to keep.
-func FillInOtherDice(dice [5]int, keep [4]int) [5]int {
-	// We can do this because we know we already have everything in [4]keep
-	dice[0] = keep[0]
-	dice[1] = keep[1]
-	dice[2] = keep[2]
-	dice[3] = keep[3]
+func FillInOtherDice(dice [5]int, keep [4]int, noDuplicates bool) [5]int {
+	// We use this in the event of a straight because we DO want to re-roll duplicates
+	if noDuplicates {
+		// We can do this because we know we already have everything in [4]keep
+		dice[0] = keep[0]
+		dice[1] = keep[1]
+		dice[2] = keep[2]
+		dice[3] = keep[3]
 
-	for i := 0; i < len(dice); i++ {
-		if dice[i] == 0 {
-			rand.Seed(time.Now().UnixNano())
-			dice[i] = rand.Intn(6) + 1 // 1 - 6
+		for i := 0; i < len(dice); i++ {
+			if dice[i] == 0 {
+				rand.Seed(time.Now().UnixNano())
+				dice[i] = rand.Intn(6) + 1 // 1 - 6
+			}
 		}
+		return dice
+	} else { // But in the event of a four-of-a-kind, we DON"T want to re-roll duplicates
+		for i := 0; i < len(dice); i++ {
+			erase := true
+			for j := 0; j < len(keep); j++ {
+				if dice[i] == keep[j] && dice[i] != 0 {
+					erase = false
+				}
+			}
+			// There were no matches in dice[i] with keep
+			if erase {
+				rand.Seed(time.Now().UnixNano())
+				dice[i] = rand.Intn(6) + 1 // 1 - 6
+			}
+		}
+		return dice
 	}
-	return dice
 }
 
 // calculateRemainderLargeStraight tells us what numbers we need in order to get a large straight
@@ -139,7 +157,8 @@ func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	crossOutOption string,
 	fillInOption string,
 	keepRolling bool,
-	keepDice [4]int) {
+	keepDice [4]int,
+	reRollDuplicates bool) {
 	// Example: "1. Cross out your Yahtzee."
 	line = line[3:]
 
@@ -181,6 +200,7 @@ func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	} else if line == "Go for a large straight." {
 		keepDice = calculateRemainderLargeStraight(dice)
 		keepRolling = true
+		reRollDuplicates = true
 	} else if line == "Go for a three-of-a-kind." {
 		keepDice[0] = largestKey
 		keepRolling = true
@@ -226,6 +246,7 @@ func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	} else if line == "Go for a small straight." {
 		keepDice = calculateRemainderSmallStraight(dice)
 		keepRolling = true
+		reRollDuplicates = true
 	} else if line == "Re-roll low numbers to get a good chance." {
 		keepDice[0] = 4
 		keepDice[1] = 5
