@@ -56,7 +56,7 @@ func Advise(board [13]ScoreItem, dice [5]int, rollsLeft int) (string, string) {
 
 	m := DiceMap(dice)
 	// Advice about the Yahtzee
-	if CalculateYahtzee(m) == 1 && board[12].points == 0 {
+	if CalculateYahtzee(m) == 1 && board[11].points != -1 {
 		adviceNum++
 		advice += strconv.Itoa(adviceNum) + ". Take the Yahtzee and stop rolling.\n"
 	}
