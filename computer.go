@@ -234,7 +234,7 @@ func InterpretFinish(line string, dice [5]int) (crossOut bool,
 	} else if line == "Keep your 4's and keep rolling." || line == "Roll for 4's." {
 		keepDice[0] = 4
 		keepRolling = true
-	} else if line == "Keep your 3's and keep rolling." || line == "Roll for 3'." {
+	} else if line == "Keep your 3's and keep rolling." || line == "Roll for 3's." {
 		keepDice[0] = 3
 		keepRolling = true
 	} else if line == "Keep your 2's and keep rolling." || line == "Roll for 2's." {
