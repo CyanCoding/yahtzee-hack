@@ -198,22 +198,22 @@ func InterpretFinish(board [13]ScoreItem, line string, dice [5]int) (crossOut bo
 	} else if line == "Go for a full house." {
 		keepDice = calculateRemainderFullHouse(m)
 		keepRolling = true
-	} else if line == "Keep your 6's and keep rolling." || line == "Roll for 6's" {
+	} else if line == "Keep your 6's and keep rolling." || line == "Roll for 6's." {
 		keepDice[0] = 6
 		keepRolling = true
-	} else if line == "Keep your 5's and keep rolling." || line == "Roll for 5's" {
+	} else if line == "Keep your 5's and keep rolling." || line == "Roll for 5's." {
 		keepDice[0] = 5
 		keepRolling = true
-	} else if line == "Keep your 4's and keep rolling." || line == "Roll for 4's" {
+	} else if line == "Keep your 4's and keep rolling." || line == "Roll for 4's." {
 		keepDice[0] = 4
 		keepRolling = true
-	} else if line == "Keep your 3's and keep rolling." || line == "Roll for 3's" {
+	} else if line == "Keep your 3's and keep rolling." || line == "Roll for 3'." {
 		keepDice[0] = 3
 		keepRolling = true
-	} else if line == "Keep your 2's and keep rolling." || line == "Roll for 2's" {
+	} else if line == "Keep your 2's and keep rolling." || line == "Roll for 2's." {
 		keepDice[0] = 2
 		keepRolling = true
-	} else if line == "Keep your 1's and keep rolling." || line == "Roll for 1's" {
+	} else if line == "Keep your 1's and keep rolling." || line == "Roll for 1's." {
 		keepDice[0] = 1
 		keepRolling = true
 	} else if line == "Go for a small straight." {
